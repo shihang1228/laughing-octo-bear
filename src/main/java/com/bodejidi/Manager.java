@@ -13,4 +13,11 @@ public class Manager extends HttpServlet
     {
         resp.getWriter().println("hello manager");
     }
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
+    {
+        String firstName = req.getParameter("first_name");
+        String lastName = req.getParameter("last_names");
+        
+        resp.getWriter().println("Add " + firstName + " " + lastName + " Success!");
+    }
 }
