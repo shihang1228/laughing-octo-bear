@@ -40,7 +40,7 @@ public class Manager extends HttpServlet
                                                + "user=root"
                                                + "&password=");
             stmt = conn.createStatement();
-            String sql = "INSERT INTO member(first_name,last_name,date_created,last_updated)"
+            String sql = "INSERT INTO shihang(first_name,last_name,date_created,last_updated)"
                        + "VALUES('" + firstName + "','" + lastName + "',now(),now())";
             System.out.println("SQL: " + sql);
             stmt.execute(sql);
