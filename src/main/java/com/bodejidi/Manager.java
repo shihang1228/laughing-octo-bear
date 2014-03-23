@@ -80,7 +80,29 @@ public class Manager extends HttpServlet
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
             resp.getWriter().println("Error!");
-
+        }
+        finally
+        {
+            if (conn != null)
+            {
+                try
+                {
+                    conn.close();
+                }catch(SQLException ex)
+                {
+                    //ignore;
+                }
+            } 
+            if (stmt != null)
+            {
+                try
+                {
+                    stmt.close();
+                }catch(SQLException ex)
+                {
+                    //ignore;
+                }
+            }
         }
                 
     }
@@ -90,6 +112,7 @@ public class Manager extends HttpServlet
         String lastName = req.getParameter("last_name");
         String paraId = req.getParameter("hidden_update");
         String paraUpdate = req.getParameter("submit_update");
+        String paraDelete = req.getParameter("submit_delete");
         resp.setContentType("text/html;charset=utf-8");
         
         
@@ -118,23 +141,33 @@ public class Manager extends HttpServlet
                 resp.getWriter().println("Update " + firstName + " " + lastName + " Success!");
                 resp.getWriter().println("<a href=\"member\">Member List</a>");
             }
+            else if("delete".equals(paraDelete))
+            {
+                String sql = "delete from shihang where id=" + paraId;
+                System.out.println("SQL: " + sql);
+                stmt.execute(sql);
+                resp.getWriter().println("delete " + firstName + " " + lastName + " Success!");
+                resp.getWriter().println("<a href=\"member\">Member List</a>");
+            }
             else
             {
-                String sql = "INSERT INTO shihang(first_name,last_name,date_created,last_updated)"
-                            + "VALUES('" + firstName + "','" + lastName + "',now(),now())";
+                String sql = "INSERT INTO shihang(first_name,last_name,date_created,last_updated) VALUES('"
+                            + firstName + "','" + lastName +"',now(),now())";
                 System.out.println("SQL: " + sql);
                 stmt.execute(sql);
                 resp.getWriter().println("Add " + firstName + " " + lastName + " Success!");
                 resp.getWriter().println("<a href=\"member\">Member List</a>");
-            }   
+            }
             
-        }catch(SQLException ex)
+        }
+        catch(SQLException ex)
         {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
             resp.getWriter().println("Error!");
-        }finally
+        }
+        finally
         {
             if (conn != null)
             {
