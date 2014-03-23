@@ -39,8 +39,14 @@ public class Manager extends HttpServlet
             String pid = req.getParameter("id");
             stmt = conn.createStatement();
             String sql = "SELECT * FROM shihang";
-            
+            String action = req.getParameter("action");
             HttpSession session = req.getSession();
+            
+            if("logout".equals(action))
+            {
+                session.removeAttribute("memberId");
+            }
+            
             Long memberId = (Long)session.getAttribute("memberId");
             if(memberId == null)
             {
@@ -162,6 +168,8 @@ public class Manager extends HttpServlet
                     session.setAttribute("memberId", 0L);
                     resp.getWriter().println("login success!");
                     resp.getWriter().println("<a href=\"member\">member list</a>");
+                    resp.getWriter().println("<a href=\"?action=logout\">logout</a>");
+                    
                 }
                 else
                 {
