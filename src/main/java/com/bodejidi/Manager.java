@@ -35,21 +35,20 @@ public class Manager extends HttpServlet
                                                +"&password=");
             resp.setContentType("text/html;charset=utf-8");
             stmt = conn.createStatement();
-            resp.getWriter().println("hello manager");
             resp.getWriter().println("<html><head><title>会员管理</title></head><body><h1>会员列表</h1><table border=\"2\">");
             String sql = "SELECT * FROM shihang";
             System.out.println(sql);
             rs = stmt.executeQuery(sql);
+            resp.getWriter().println("<tr><th>ID</th><th>Name</th></tr>");
             while(rs.next())
             {
                 Long id = rs.getLong("ID");
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
-                resp.getWriter().println("<tr><th>ID</th><th>Name</th></tr>");
                 resp.getWriter().println("<tr><td>" + id + "</td><td>" + firstName + lastName + "</td></tr>");
            
             }
-            resp.getWriter().println("</table></body></html>");
+            resp.getWriter().println("</table><a href=\".\">Add Member</a></body></html>");
         }
         
         
@@ -67,6 +66,8 @@ public class Manager extends HttpServlet
     {
         String firstName = req.getParameter("first_name");
         String lastName = req.getParameter("last_name");
+        resp.setContentType("text/html;charset=utf-8");
+        
         
         try
         {
@@ -90,6 +91,7 @@ public class Manager extends HttpServlet
             System.out.println("SQL: " + sql);
             stmt.execute(sql);
             resp.getWriter().println("Add " + firstName + " " + lastName + " Success!");
+            resp.getWriter().println("<a href=\"member\">Member List</a>");
             
         }catch(SQLException ex)
         {
