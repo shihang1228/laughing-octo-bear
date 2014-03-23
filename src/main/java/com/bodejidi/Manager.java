@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSet;
 import java.sql.DriverManager;
 
 
@@ -16,7 +17,51 @@ public class Manager extends HttpServlet
 {
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
-        resp.getWriter().println("hello manager");
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();           
+        }
+        catch(Exception ex)
+        {
+            //ignore
+        }
+        try
+        {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/test?"
+                                               +"user=root"
+                                               +"&password=");
+            resp.setContentType("text/html;charset=utf-8");
+            stmt = conn.createStatement();
+            resp.getWriter().println("hello manager");
+            resp.getWriter().println("<html><head><title>会员管理</title></head><body><h1>会员列表</h1><table border=\"2\">");
+            String sql = "SELECT * FROM shihang";
+            System.out.println(sql);
+            rs = stmt.executeQuery(sql);
+            while(rs.next())
+            {
+                Long id = rs.getLong("ID");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                resp.getWriter().println("<tr><th>ID</th><th>Name</th></tr>");
+                resp.getWriter().println("<tr><td>" + id + "</td><td>" + firstName + lastName + "</td></tr>");
+           
+            }
+            resp.getWriter().println("</table></body></html>");
+        }
+        
+        
+        catch(SQLException ex)
+        {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            resp.getWriter().println("Error!");
+
+        }
+                
     }
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
     {
