@@ -56,19 +56,21 @@ public class Manager extends HttpServlet
             }
             else
             {
-                resp.getWriter().println("<html><head><title>会员</title></head><body><h1>会员</h1><table border=\"2\">");
+                resp.getWriter().println("<html><head><title>指定会员</title></head><body><h1>指定会员</h1><form action=\"member\" method=\"POST\">");
                 sql = sql + " WHERE ID =" + pid;
                 System.out.println(sql);
                 rs = stmt.executeQuery(sql);
-                resp.getWriter().println("<tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>");
+                resp.getWriter().println("<table border=\"2\"><tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>");
                 
                 rs.next();
                 Long id = rs.getLong("ID");
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
-                resp.getWriter().println("<tr><td>" + id + "</td><td>" + firstName + "</td><td>" + lastName + "</td></tr>");           
-              
-                resp.getWriter().println("</table><a href=\".\">Add Member</a></body></html>");
+                resp.getWriter().println("<tr><td>" + id + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + firstName + "\">" 
+                                       + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + lastName + "\"></td></tr></table></br>");
+                resp.getWriter().println("<input type=\"submit\" name=\"submit_update\" value=\"update\">");
+                resp.getWriter().println("<input type=\"submit\" name=\"submit_delete\" value=\"delete\">");
+                resp.getWriter().println("</form><a href=\".\">Add Member</a></body></html>");
             }
         } 
         catch(SQLException ex)
