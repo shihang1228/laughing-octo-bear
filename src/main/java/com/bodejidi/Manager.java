@@ -67,9 +67,10 @@ public class Manager extends HttpServlet
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 resp.getWriter().println("<tr><td>" + id + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + firstName + "\">" 
-                                       + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + lastName + "\"></td></tr></table></br>");
+                                       + "</td><td><input type=\"text\" name=\"last_name\" value=\"" + lastName + "\"></td></tr></table></br>");
                 resp.getWriter().println("<input type=\"submit\" name=\"submit_update\" value=\"update\">");
                 resp.getWriter().println("<input type=\"submit\" name=\"submit_delete\" value=\"delete\">");
+                resp.getWriter().println("<input type=\"hidden\" name=\"hidden_update\" value=\"" + id + "\">");
                 resp.getWriter().println("</form><a href=\".\">Add Member</a></body></html>");
             }
         } 
@@ -87,6 +88,8 @@ public class Manager extends HttpServlet
     {
         String firstName = req.getParameter("first_name");
         String lastName = req.getParameter("last_name");
+        String paraId = req.getParameter("hidden_update");
+        String paraUpdate = req.getParameter("submit_update");
         resp.setContentType("text/html;charset=utf-8");
         
         
@@ -107,12 +110,23 @@ public class Manager extends HttpServlet
                                                + "user=root"
                                                + "&password=");
             stmt = conn.createStatement();
-            String sql = "INSERT INTO shihang(first_name,last_name,date_created,last_updated)"
-                       + "VALUES('" + firstName + "','" + lastName + "',now(),now())";
-            System.out.println("SQL: " + sql);
-            stmt.execute(sql);
-            resp.getWriter().println("Add " + firstName + " " + lastName + " Success!");
-            resp.getWriter().println("<a href=\"member\">Member List</a>");
+            if("update".equals(paraUpdate))
+            {
+                String sql = "update shihang set first_name='" + firstName + "' ,last_name='" + lastName +"' where ID=" + paraId;
+                System.out.println("SQL: " + sql);
+                stmt.execute(sql);
+                resp.getWriter().println("Update " + firstName + " " + lastName + " Success!");
+                resp.getWriter().println("<a href=\"member\">Member List</a>");
+            }
+            else
+            {
+                String sql = "INSERT INTO shihang(first_name,last_name,date_created,last_updated)"
+                            + "VALUES('" + firstName + "','" + lastName + "',now(),now())";
+                System.out.println("SQL: " + sql);
+                stmt.execute(sql);
+                resp.getWriter().println("Add " + firstName + " " + lastName + " Success!");
+                resp.getWriter().println("<a href=\"member\">Member List</a>");
+            }   
             
         }catch(SQLException ex)
         {
