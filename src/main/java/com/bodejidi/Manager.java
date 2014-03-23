@@ -1,5 +1,6 @@
 package com.bodejidi;
 
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +13,6 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.DriverManager;
 
-
 public class Manager extends HttpServlet
 {
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
@@ -20,6 +20,8 @@ public class Manager extends HttpServlet
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
+        
+       
         try
         {
             Class.forName("com.mysql.jdbc.Driver").newInstance();           
@@ -38,6 +40,18 @@ public class Manager extends HttpServlet
             stmt = conn.createStatement();
             String sql = "SELECT * FROM shihang";
             
+            HttpSession session = req.getSession();
+            Long memberId = (Long)session.getAttribute("memberId");
+            if(memberId == null)
+            {
+                resp.setContentType("text/html;charset=utf-8");
+                resp.getWriter().println("<html><head><title>登录</title></head><body><form action=\"member\" method=\"POST\">");
+                resp.getWriter().println("<label>UserName:<input type=\"text\" name=\"user_name\"></label>");
+                resp.getWriter().println("<label>Password:<input type=\"password\" name=\"password\"></label>");
+                resp.getWriter().println("<input type=\"submit\" name=\"submit_login\" value=\"login\">");
+                resp.getWriter().println("</form></body></html>");
+                return;
+            }
             if (pid == null)
             {
                 resp.getWriter().println("<html><head><title>会员管理</title></head><body><h1>会员列表</h1><table border=\"2\">");
@@ -115,6 +129,10 @@ public class Manager extends HttpServlet
         String paraDelete = req.getParameter("submit_delete");
         resp.setContentType("text/html;charset=utf-8");
         
+        String paraLogin = req.getParameter("submit_login");
+        
+        
+        
         
         try
         {
@@ -133,7 +151,26 @@ public class Manager extends HttpServlet
                                                + "user=root"
                                                + "&password=");
             stmt = conn.createStatement();
-            if("update".equals(paraUpdate))
+            
+            if("login".equals(paraLogin))
+            {
+                String userName = req.getParameter("user_name");
+                String password = req.getParameter("password");
+                if(userName.equals("bai")&&password.equals("shi"))
+                {
+                    HttpSession session = req.getSession();
+                    session.setAttribute("memberId", 0L);
+                    resp.getWriter().println("login success!");
+                    resp.getWriter().println("<a href=\"member\">member list</a>");
+                }
+                else
+                {
+                    resp.getWriter().println("login failed");
+                }
+                return;
+            }
+        
+            else if("update".equals(paraUpdate))
             {
                 String sql = "update shihang set first_name='" + firstName + "' ,last_name='" + lastName +"' where ID=" + paraId;
                 System.out.println("SQL: " + sql);
