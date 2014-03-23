@@ -11,3 +11,6 @@ compile脚本
 
 deploy脚本
 用来将应用部署到tomcat下
+
+初始化数据库
+导入数据库脚本 sql/mysql.sql
