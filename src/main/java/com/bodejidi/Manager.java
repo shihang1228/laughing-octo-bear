@@ -25,6 +25,8 @@ public class Manager extends HttpServlet
     static final String FORM_ID = "id";
     static final String SHIHANG_ID = "ID";
     static final String SHIHANG_TABLE = "shihang";
+    static final String SHIHANG_DATE_CREATED = "date_created";
+    static final String SHIHANG_LAST_UPDATED = "last_updated";
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
@@ -88,7 +90,7 @@ public class Manager extends HttpServlet
             else
             {
                 out.println("<html><head><title>指定会员</title></head><body><h1>指定会员</h1><form action=\"member\" method=\"POST\">");
-                sql = sql + " WHERE ID =" + pid;
+                sql = sql + " " + " WHERE " + SHIHANG_ID + " = " + pid;
                 System.out.println(sql);
                 rs = stmt.executeQuery(sql);
                 out.println("<table border=\"2\"><tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>");
@@ -190,7 +192,7 @@ public class Manager extends HttpServlet
         
             else if("update".equals(paraUpdate))
             {             
-                String sql = "update " + SHIHANG_TABLE + " set first_name='" + firstName + "' ,last_name='" + lastName + "'where ID=" + paraId;
+                String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "='" + firstName + "' , " + SHIHANG_LAST_NAME + "='" + lastName + "'where " + SHIHANG_ID + "=" + paraId;
                 System.out.println("SQL: " + sql);
                 stmt.execute(sql);
                 out.println("Update " + firstName + " " + lastName + " Success!");
@@ -198,7 +200,7 @@ public class Manager extends HttpServlet
             }
             else if("delete".equals(paraDelete))
             {
-                String sql = "delete from " + SHIHANG_TABLE + " where ID=" + paraId;
+                String sql = "delete from " + SHIHANG_TABLE + " where " + SHIHANG_ID  + "=" + paraId;
                 System.out.println("SQL: " + sql);
                 stmt.execute(sql);
                 out.println("delete " + firstName + " " + lastName + " Success!");
@@ -206,7 +208,7 @@ public class Manager extends HttpServlet
             }
             else
             {
-                String sql = "INSERT INTO " + SHIHANG_TABLE + " (first_name,last_name,date_created,last_updated) VALUES('"
+                String sql = "INSERT INTO " + SHIHANG_TABLE + " ( " + SHIHANG_FIRST_NAME + ", " + SHIHANG_LAST_NAME + " ," +SHIHANG_DATE_CREATED + "," + SHIHANG_LAST_UPDATED + ") VALUES('"
                             + firstName + "','" + lastName +"',now(),now())";
                 System.out.println("SQL: " + sql);
                 stmt.execute(sql);
