@@ -74,22 +74,7 @@ public class Manager extends HttpServlet
             }
             else
             {
-                out.println("<html><head><title>指定会员</title></head><body><h1>指定会员</h1><form action=\"member\" method=\"POST\">");
-                sql = sql + " " + " WHERE " + SHIHANG_ID + " = " + pid;
-                debug(sql);
-                rs = stmt.executeQuery(sql);
-                out.println("<table border=\"2\"><tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>");
-                
-                rs.next();
-                Long id = rs.getLong(SHIHANG_ID);
-                String firstName = rs.getString(SHIHANG_FIRST_NAME);
-                String lastName = rs.getString(SHIHANG_LAST_NAME);          
-                out.println("<tr><td>" + id + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + firstName + "\">" 
-                                       + "</td><td><input type=\"text\" name=\"last_name\" value=\"" + lastName + "\"></td></tr></table></br>");
-                out.println("<input type=\"submit\" name=\"action\" value=\"update\">");
-                out.println("<input type=\"submit\" name=\"action\" value=\"delete\">");
-                out.println("<input type=\"hidden\" name=\"id\" value=\"" + id + "\">");
-                out.println("</form><a href=\".\">Add Member</a></body></html>");
+                show(req,resp);
             }
         } 
         catch(SQLException ex)
@@ -222,7 +207,7 @@ public class Manager extends HttpServlet
         System.out.println("[DEBUG] " + new Date() + " " + str);
     }
     public void list(HttpServletRequest req, HttpServletResponse resp)throws IOException,ServletException
-    {   
+    {  
         resp.setContentType(contentType);
         
         Connection conn = null;
@@ -235,11 +220,14 @@ public class Manager extends HttpServlet
         {
             conn = createConnection();
             stmt = conn.createStatement();
+            
             String sql = "SELECT * FROM " + SHIHANG_TABLE;
-            out.println("<html><head><title>会员管理</title></head><body><h1>会员列表</h1><table border=\"2\">");
             debug(sql);
             rs = stmt.executeQuery(sql);
+            
+            out.println("<html><head><title>会员管理</title></head><body><h1>会员列表</h1><table border=\"2\">");
             out.println("<tr><th>ID</th><th>Name</th></tr>");
+            
             while(rs.next())
             {
                 Long id = rs.getLong(SHIHANG_ID);
@@ -247,7 +235,65 @@ public class Manager extends HttpServlet
                 String lastName = rs.getString(SHIHANG_LAST_NAME);
                 out.println("<tr><td><a href=\"?id=" + id + "\" >"+ id + "</a></td><td>" + firstName + lastName + "</td></tr>");         
             }
+            
                 out.println("</table><a href=\".\">Add Member</a></body></html>");
+        }
+        catch(SQLException ex)
+        {
+            debug("SQLException: " + ex.getMessage());
+            debug("SQLState: " + ex.getSQLState());
+            debug("VendorError: " + ex.getErrorCode());
+            out.println("Error!");
+        }
+        finally
+        {
+            close(conn);
+            conn = null; 
+          
+            close(stmt);
+            stmt = null;
+            
+            close(rs);
+            rs = null;
+        }
+    }
+    public void show(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
+    {
+        resp.setContentType(contentType);
+        
+        String pid = req.getParameter(FORM_ID);
+        
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        
+        PrintWriter out = resp.getWriter();
+       
+        try
+        {
+            conn = createConnection();
+            stmt = conn.createStatement();
+            
+            String sql = "SELECT * FROM " + SHIHANG_TABLE;
+            sql = sql + " " + " WHERE " + SHIHANG_ID + " = " + pid;
+            debug(sql);
+ 
+            rs = stmt.executeQuery(sql);
+            
+            out.println("<html><head><title>指定会员</title></head><body><h1>指定会员</h1><form action=\"member\" method=\"POST\">");
+            out.println("<table border=\"2\"><tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>");
+                
+            rs.next();
+            Long id = rs.getLong(SHIHANG_ID);
+            String firstName = rs.getString(SHIHANG_FIRST_NAME);
+            String lastName = rs.getString(SHIHANG_LAST_NAME);    
+            
+            out.println("<tr><td>" + id + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + firstName + "\">" 
+                       + "</td><td><input type=\"text\" name=\"last_name\" value=\"" + lastName + "\"></td></tr></table></br>");
+            out.println("<input type=\"submit\" name=\"action\" value=\"update\">");
+            out.println("<input type=\"submit\" name=\"action\" value=\"delete\">");
+            out.println("<input type=\"hidden\" name=\"id\" value=\"" + id + "\">");
+            out.println("</form><a href=\".\">Add Member</a></body></html>");
         }
         catch(SQLException ex)
         {
