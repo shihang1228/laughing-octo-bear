@@ -18,6 +18,8 @@ public class Manager extends HttpServlet
     static final String jdbcUrl = "jdbc:mysql://localhost/test?" + "user=root" + "&password=";
     static final String jdbcDriver = "com.mysql.jdbc.Driver";
     static final String contentType = "text/html; charset=UTF-8";
+    static final String FORM_FIRST_NAME = "first_name"; 
+    static final String FORM_LAST_NAME = "last_name";
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
@@ -132,8 +134,8 @@ public class Manager extends HttpServlet
     }
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
     {
-        String firstName = req.getParameter("first_name");
-        String lastName = req.getParameter("last_name");
+        String firstName = req.getParameter(FORM_FIRST_NAME);
+        String lastName = req.getParameter(FORM_LAST_NAME);
         String paraId = req.getParameter("hidden_update");
         String paraUpdate = req.getParameter("submit_update");
         String paraDelete = req.getParameter("submit_delete");      
