@@ -17,11 +17,12 @@ public class Manager extends HttpServlet
 {
     static final String jdbcUrl = "jdbc:mysql://localhost/test?" + "user=root" + "&password=";
     static final String jdbcDriver = "com.mysql.jdbc.Driver";
+    static final String contentType = "text/html; charset=UTF-8";
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
         
-        resp.setContentType("text/html;charset=UTF-8");
+        resp.setContentType(contentType);
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -135,8 +136,8 @@ public class Manager extends HttpServlet
         String lastName = req.getParameter("last_name");
         String paraId = req.getParameter("hidden_update");
         String paraUpdate = req.getParameter("submit_update");
-        String paraDelete = req.getParameter("submit_delete");
-        resp.setContentType("text/html;charset=UTF-8");
+        String paraDelete = req.getParameter("submit_delete");      
+        resp.setContentType(contentType);
         
         String paraLogin = req.getParameter("submit_login");
         
