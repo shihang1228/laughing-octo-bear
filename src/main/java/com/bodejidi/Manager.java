@@ -33,22 +33,12 @@ public class Manager extends HttpServlet
 
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
-    {
-        
-        resp.setContentType(contentType);
-        
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        
-        PrintWriter out = resp.getWriter();
-        
-        try
-        { 
-            conn = createConnection();
+    {         
+            resp.setContentType(contentType);
+            
+            PrintWriter out = resp.getWriter();
             String pid = req.getParameter(FORM_ID);
-            stmt = conn.createStatement();
-            String sql = "SELECT * FROM " + SHIHANG_TABLE;
+            
             String action = req.getParameter("action");
             HttpSession session = req.getSession();
             
@@ -76,26 +66,6 @@ public class Manager extends HttpServlet
             {
                 show(req,resp);
             }
-        } 
-        catch(SQLException ex)
-        {
-            debug("SQLException: " + ex.getMessage());
-            debug("SQLState: " + ex.getSQLState());
-            debug("VendorError: " + ex.getErrorCode());
-            out.println("Error!");
-        }
-        finally
-        {
-            close(conn);
-            conn = null; 
-          
-            close(stmt);
-            stmt = null;
-            
-            close(rs);
-            rs = null;
-        }
-                
     }
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
     {
