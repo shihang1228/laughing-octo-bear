@@ -70,19 +70,7 @@ public class Manager extends HttpServlet
             }
             if (pid == null)
             {
-                out.println("<html><head><title>会员管理</title></head><body><h1>会员列表</h1><table border=\"2\">");
-                debug(sql);
-                rs = stmt.executeQuery(sql);
-                out.println("<tr><th>ID</th><th>Name</th></tr>");
-                while(rs.next())
-                {
-                    Long id = rs.getLong(SHIHANG_ID);
-                    String firstName = rs.getString(SHIHANG_FIRST_NAME);
-                    String lastName = rs.getString(SHIHANG_LAST_NAME);
-                    out.println("<tr><td><a href=\"?id=" + id + "\" >"+ id + "</a></td><td>" + firstName + lastName + "</td></tr>");
-           
-                }
-                out.println("</table><a href=\".\">Add Member</a></body></html>");
+                list(req,resp);
             }
             else
             {
@@ -230,7 +218,54 @@ public class Manager extends HttpServlet
         }
     }
     public void debug(String str)
+    {
+        System.out.println("[DEBUG] " + new Date() + " " + str);
+    }
+    public void list(HttpServletRequest req, HttpServletResponse resp)throws IOException,ServletException
+    {   
+        resp.setContentType(contentType);
+        
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        
+        PrintWriter out = resp.getWriter();
+       
+        try
         {
-            System.out.println("[debug]:" + "date()" + str);
+            conn = createConnection();
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM " + SHIHANG_TABLE;
+            out.println("<html><head><title>会员管理</title></head><body><h1>会员列表</h1><table border=\"2\">");
+            debug(sql);
+            rs = stmt.executeQuery(sql);
+            out.println("<tr><th>ID</th><th>Name</th></tr>");
+            while(rs.next())
+            {
+                Long id = rs.getLong(SHIHANG_ID);
+                String firstName = rs.getString(SHIHANG_FIRST_NAME);
+                String lastName = rs.getString(SHIHANG_LAST_NAME);
+                out.println("<tr><td><a href=\"?id=" + id + "\" >"+ id + "</a></td><td>" + firstName + lastName + "</td></tr>");         
+            }
+                out.println("</table><a href=\".\">Add Member</a></body></html>");
         }
+        catch(SQLException ex)
+        {
+            debug("SQLException: " + ex.getMessage());
+            debug("SQLState: " + ex.getSQLState());
+            debug("VendorError: " + ex.getErrorCode());
+            out.println("Error!");
+        }
+        finally
+        {
+            close(conn);
+            conn = null; 
+          
+            close(stmt);
+            stmt = null;
+            
+            close(rs);
+            rs = null;
+        }
+    }
 }
