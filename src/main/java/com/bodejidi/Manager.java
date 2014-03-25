@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.lang.AutoCloseable;
+import java.util.Date;
 
 public class Manager extends HttpServlet
 {
@@ -67,7 +68,7 @@ public class Manager extends HttpServlet
             if (pid == null)
             {
                 out.println("<html><head><title>会员管理</title></head><body><h1>会员列表</h1><table border=\"2\">");
-                System.out.println(sql);
+                debug(sql);
                 rs = stmt.executeQuery(sql);
                 out.println("<tr><th>ID</th><th>Name</th></tr>");
                 while(rs.next())
@@ -84,7 +85,7 @@ public class Manager extends HttpServlet
             {
                 out.println("<html><head><title>指定会员</title></head><body><h1>指定会员</h1><form action=\"member\" method=\"POST\">");
                 sql = sql + " " + " WHERE " + SHIHANG_ID + " = " + pid;
-                System.out.println(sql);
+                debug(sql);
                 rs = stmt.executeQuery(sql);
                 out.println("<table border=\"2\"><tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>");
                 
@@ -102,9 +103,9 @@ public class Manager extends HttpServlet
         } 
         catch(SQLException ex)
         {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            debug("SQLException: " + ex.getMessage());
+            debug("SQLState: " + ex.getSQLState());
+            debug("VendorError: " + ex.getErrorCode());
             out.println("Error!");
         }
         finally
@@ -163,7 +164,7 @@ public class Manager extends HttpServlet
             else if("update".equals(paraUpdate))
             {             
                 String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "='" + firstName + "' , " + SHIHANG_LAST_NAME + "='" + lastName + "'where " + SHIHANG_ID + "=" + paraId;
-                System.out.println("SQL: " + sql);
+                debug("SQL: " + sql);
                 stmt.execute(sql);
                 out.println("Update " + firstName + " " + lastName + " Success!");
                 out.println("<a href=\"member\">Member List</a>");
@@ -171,7 +172,7 @@ public class Manager extends HttpServlet
             else if("delete".equals(paraDelete))
             {
                 String sql = "delete from " + SHIHANG_TABLE + " where " + SHIHANG_ID  + "=" + paraId;
-                System.out.println("SQL: " + sql);
+                debug("SQL: " + sql);
                 stmt.execute(sql);
                 out.println("delete " + firstName + " " + lastName + " Success!");
                 out.println("<a href=\"member\">Member List</a>");
@@ -180,7 +181,7 @@ public class Manager extends HttpServlet
             {
                 String sql = "INSERT INTO " + SHIHANG_TABLE + " ( " + SHIHANG_FIRST_NAME + ", " + SHIHANG_LAST_NAME + " ," +SHIHANG_DATE_CREATED + "," + SHIHANG_LAST_UPDATED + ") VALUES('"
                             + firstName + "','" + lastName +"',now(),now())";
-                System.out.println("SQL: " + sql);
+                debug("SQL: " + sql);
                 stmt.execute(sql);
                 out.println("Add " + firstName + " " + lastName + " Success!");
                 out.println("<a href=\"member\">Member List</a>");
@@ -189,9 +190,9 @@ public class Manager extends HttpServlet
         }
         catch(SQLException ex)
         {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            debug("SQLException: " + ex.getMessage());
+            debug("SQLState: " + ex.getSQLState());
+            debug("VendorError: " + ex.getErrorCode());
             out.println("Error!");
         }
         finally
@@ -227,4 +228,8 @@ public class Manager extends HttpServlet
             //ignore;
         }
     }
+    public void debug(String str)
+        {
+            System.out.println("[debug]:" + "date()" + str);
+        }
 }
