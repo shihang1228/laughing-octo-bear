@@ -22,18 +22,21 @@ public class Manager extends HttpServlet
     static final String contentType = "text/html; charset=UTF-8";
     static final String FORM_FIRST_NAME = "first_name"; 
     static final String FORM_LAST_NAME = "last_name";
+    static final String FORM_ID = "id";
+    static final String FORM_ACTION = "action";
     static final String SHIHANG_FIRST_NAME = "first_name";
     static final String SHIHANG_LAST_NAME = "last_name";
-    static final String FORM_ID = "id";
     static final String SHIHANG_ID = "ID";
     static final String SHIHANG_TABLE = "shihang";
     static final String SHIHANG_DATE_CREATED = "date_created";
     static final String SHIHANG_LAST_UPDATED = "last_updated";
+
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
         
         resp.setContentType(contentType);
+        
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -61,7 +64,7 @@ public class Manager extends HttpServlet
                 out.println("<html><head><title>登录</title></head><body><form action=\"member\" method=\"POST\">");
                 out.println("<label>UserName:<input type=\"text\" name=\"user_name\"></label>");
                 out.println("<label>Password:<input type=\"password\" name=\"password\"></label>");
-                out.println("<input type=\"submit\" name=\"submit_login\" value=\"login\">");
+                out.println("<input type=\"submit\" name=\"action\" value=\"login\">");
                 out.println("</form></body></html>");
                 return;
             }
@@ -95,8 +98,8 @@ public class Manager extends HttpServlet
                 String lastName = rs.getString(SHIHANG_LAST_NAME);          
                 out.println("<tr><td>" + id + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + firstName + "\">" 
                                        + "</td><td><input type=\"text\" name=\"last_name\" value=\"" + lastName + "\"></td></tr></table></br>");
-                out.println("<input type=\"submit\" name=\"submit_update\" value=\"update\">");
-                out.println("<input type=\"submit\" name=\"submit_delete\" value=\"delete\">");
+                out.println("<input type=\"submit\" name=\"action\" value=\"update\">");
+                out.println("<input type=\"submit\" name=\"action\" value=\"delete\">");
                 out.println("<input type=\"hidden\" name=\"id\" value=\"" + id + "\">");
                 out.println("</form><a href=\".\">Add Member</a></body></html>");
             }
@@ -123,15 +126,13 @@ public class Manager extends HttpServlet
     }
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
     {
+        resp.setContentType(contentType);
+    
         String firstName = req.getParameter(FORM_FIRST_NAME);
         String lastName = req.getParameter(FORM_LAST_NAME);
         String paraId = req.getParameter(FORM_ID);
-        String paraUpdate = req.getParameter("submit_update");
-        String paraDelete = req.getParameter("submit_delete");      
-        resp.setContentType(contentType);
-        
-        String paraLogin = req.getParameter("submit_login");
-        
+        String paraAction = req.getParameter("action");
+           
         PrintWriter out = resp.getWriter();
 
         Connection conn = null;
@@ -141,7 +142,7 @@ public class Manager extends HttpServlet
             conn = createConnection();                                   
             stmt = conn.createStatement();
             
-            if("login".equals(paraLogin))
+            if("login".equals(paraAction))
             {
                 String userName = req.getParameter("user_name");
                 String password = req.getParameter("password");
@@ -161,7 +162,7 @@ public class Manager extends HttpServlet
                 return;
             }
         
-            else if("update".equals(paraUpdate))
+            else if("update".equals(paraAction))
             {             
                 String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "='" + firstName + "' , " + SHIHANG_LAST_NAME + "='" + lastName + "'where " + SHIHANG_ID + "=" + paraId;
                 debug("SQL: " + sql);
@@ -169,7 +170,7 @@ public class Manager extends HttpServlet
                 out.println("Update " + firstName + " " + lastName + " Success!");
                 out.println("<a href=\"member\">Member List</a>");
             }
-            else if("delete".equals(paraDelete))
+            else if("delete".equals(paraAction))
             {
                 String sql = "delete from " + SHIHANG_TABLE + " where " + SHIHANG_ID  + "=" + paraId;
                 debug("SQL: " + sql);
