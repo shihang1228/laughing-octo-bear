@@ -15,8 +15,11 @@ import java.sql.DriverManager;
 
 public class Manager extends HttpServlet
 {
+    static final String jdbcUrl = "jdbc:mysql://localhost/test?" + "user=root" + "&password=";
+    
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
+        
         resp.setContentType("text/html;charset=UTF-8");
         Connection conn = null;
         Statement stmt = null;
@@ -34,9 +37,7 @@ public class Manager extends HttpServlet
         
         try
         {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/test?"
-                                               +"user=root"
-                                               +"&password=");
+            conn = DriverManager.getConnection(jdbcUrl);                                   
             String pid = req.getParameter("id");
             stmt = conn.createStatement();
             String sql = "SELECT * FROM shihang";
@@ -155,10 +156,7 @@ public class Manager extends HttpServlet
         Statement stmt = null;
         try
         {
-            conn =
-                   DriverManager.getConnection("jdbc:mysql://localhost/test?"
-                                               + "user=root"
-                                               + "&password=");
+            conn = DriverManager.getConnection(jdbcUrl);                                   
             stmt = conn.createStatement();
             
             if("login".equals(paraLogin))
