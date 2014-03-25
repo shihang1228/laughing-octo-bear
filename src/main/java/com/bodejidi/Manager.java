@@ -23,6 +23,7 @@ public class Manager extends HttpServlet
     static final String SHIHANG_FIRST_NAME = "first_name";
     static final String SHIHANG_LAST_NAME = "last_name";
     static final String FORM_ID = "id";
+    static final String SHIHANG_ID = "ID";
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
@@ -75,7 +76,7 @@ public class Manager extends HttpServlet
                 out.println("<tr><th>ID</th><th>Name</th></tr>");
                 while(rs.next())
                 {
-                    Long id = rs.getLong("ID");
+                    Long id = rs.getLong(SHIHANG_ID);
                     String firstName = rs.getString(SHIHANG_FIRST_NAME);
                     String lastName = rs.getString(SHIHANG_LAST_NAME);
                     out.println("<tr><td><a href=\"?id=" + id + "\" >"+ id + "</a></td><td>" + firstName + lastName + "</td></tr>");
@@ -92,7 +93,7 @@ public class Manager extends HttpServlet
                 out.println("<table border=\"2\"><tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>");
                 
                 rs.next();
-                Long id = rs.getLong("ID");
+                Long id = rs.getLong(SHIHANG_ID);
                 String firstName = rs.getString(SHIHANG_FIRST_NAME);
                 String lastName = rs.getString(SHIHANG_LAST_NAME);          
                 out.println("<tr><td>" + id + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + firstName + "\">" 
@@ -196,7 +197,7 @@ public class Manager extends HttpServlet
             }
             else if("delete".equals(paraDelete))
             {
-                String sql = "delete from shihang where id=" + paraId;
+                String sql = "delete from shihang where ID=" + paraId;
                 System.out.println("SQL: " + sql);
                 stmt.execute(sql);
                 out.println("delete " + firstName + " " + lastName + " Success!");
