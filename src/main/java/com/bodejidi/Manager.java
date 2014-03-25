@@ -20,6 +20,8 @@ public class Manager extends HttpServlet
     static final String contentType = "text/html; charset=UTF-8";
     static final String FORM_FIRST_NAME = "first_name"; 
     static final String FORM_LAST_NAME = "last_name";
+    static final String SHIHANG_FIRST_NAME = "first_name";
+    static final String SHIHANG_LAST_NAME = "last_name";
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
@@ -73,8 +75,8 @@ public class Manager extends HttpServlet
                 while(rs.next())
                 {
                     Long id = rs.getLong("ID");
-                    String firstName = rs.getString("first_name");
-                    String lastName = rs.getString("last_name");
+                    String firstName = rs.getString(SHIHANG_FIRST_NAME);
+                    String lastName = rs.getString(SHIHANG_LAST_NAME);
                     out.println("<tr><td><a href=\"?id=" + id + "\" >"+ id + "</a></td><td>" + firstName + lastName + "</td></tr>");
            
                 }
@@ -90,8 +92,8 @@ public class Manager extends HttpServlet
                 
                 rs.next();
                 Long id = rs.getLong("ID");
-                String firstName = rs.getString("first_name");
-                String lastName = rs.getString("last_name");          
+                String firstName = rs.getString(SHIHANG_FIRST_NAME);
+                String lastName = rs.getString(SHIHANG_LAST_NAME);          
                 out.println("<tr><td>" + id + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + firstName + "\">" 
                                        + "</td><td><input type=\"text\" name=\"last_name\" value=\"" + lastName + "\"></td></tr></table></br>");
                 out.println("<input type=\"submit\" name=\"submit_update\" value=\"update\">");
