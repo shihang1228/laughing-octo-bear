@@ -22,6 +22,7 @@ public class Manager extends HttpServlet
     static final String FORM_LAST_NAME = "last_name";
     static final String SHIHANG_FIRST_NAME = "first_name";
     static final String SHIHANG_LAST_NAME = "last_name";
+    static final String FORM_ID = "id";
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
@@ -44,7 +45,7 @@ public class Manager extends HttpServlet
         try
         {
             conn = DriverManager.getConnection(jdbcUrl);                                   
-            String pid = req.getParameter("id");
+            String pid = req.getParameter(FORM_ID);
             stmt = conn.createStatement();
             String sql = "SELECT * FROM shihang";
             String action = req.getParameter("action");
@@ -98,7 +99,7 @@ public class Manager extends HttpServlet
                                        + "</td><td><input type=\"text\" name=\"last_name\" value=\"" + lastName + "\"></td></tr></table></br>");
                 out.println("<input type=\"submit\" name=\"submit_update\" value=\"update\">");
                 out.println("<input type=\"submit\" name=\"submit_delete\" value=\"delete\">");
-                out.println("<input type=\"hidden\" name=\"hidden_update\" value=\"" + id + "\">");
+                out.println("<input type=\"hidden\" name=\"id\" value=\"" + id + "\">");
                 out.println("</form><a href=\".\">Add Member</a></body></html>");
             }
         } 
@@ -138,7 +139,7 @@ public class Manager extends HttpServlet
     {
         String firstName = req.getParameter(FORM_FIRST_NAME);
         String lastName = req.getParameter(FORM_LAST_NAME);
-        String paraId = req.getParameter("hidden_update");
+        String paraId = req.getParameter(FORM_ID);
         String paraUpdate = req.getParameter("submit_update");
         String paraDelete = req.getParameter("submit_delete");      
         resp.setContentType(contentType);
