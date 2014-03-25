@@ -24,6 +24,7 @@ public class Manager extends HttpServlet
     static final String SHIHANG_LAST_NAME = "last_name";
     static final String FORM_ID = "id";
     static final String SHIHANG_ID = "ID";
+    static final String SHIHANG_TABLE = "shihang";
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
@@ -48,7 +49,7 @@ public class Manager extends HttpServlet
             conn = DriverManager.getConnection(jdbcUrl);                                   
             String pid = req.getParameter(FORM_ID);
             stmt = conn.createStatement();
-            String sql = "SELECT * FROM shihang";
+            String sql = "SELECT * FROM " + SHIHANG_TABLE;
             String action = req.getParameter("action");
             HttpSession session = req.getSession();
             
@@ -189,7 +190,7 @@ public class Manager extends HttpServlet
         
             else if("update".equals(paraUpdate))
             {             
-                String sql = "update shihang set first_name='" + firstName + "' ,last_name='" + lastName + "'where ID=" + paraId;
+                String sql = "update " + SHIHANG_TABLE + " set first_name='" + firstName + "' ,last_name='" + lastName + "'where ID=" + paraId;
                 System.out.println("SQL: " + sql);
                 stmt.execute(sql);
                 out.println("Update " + firstName + " " + lastName + " Success!");
@@ -197,7 +198,7 @@ public class Manager extends HttpServlet
             }
             else if("delete".equals(paraDelete))
             {
-                String sql = "delete from shihang where ID=" + paraId;
+                String sql = "delete from " + SHIHANG_TABLE + " where ID=" + paraId;
                 System.out.println("SQL: " + sql);
                 stmt.execute(sql);
                 out.println("delete " + firstName + " " + lastName + " Success!");
@@ -205,7 +206,7 @@ public class Manager extends HttpServlet
             }
             else
             {
-                String sql = "INSERT INTO shihang(first_name,last_name,date_created,last_updated) VALUES('"
+                String sql = "INSERT INTO " + SHIHANG_TABLE + " (first_name,last_name,date_created,last_updated) VALUES('"
                             + firstName + "','" + lastName +"',now(),now())";
                 System.out.println("SQL: " + sql);
                 stmt.execute(sql);
