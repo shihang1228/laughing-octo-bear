@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.DriverManager;
+import java.lang.AutoCloseable;
 
 public class Manager extends HttpServlet
 {
@@ -108,26 +109,14 @@ public class Manager extends HttpServlet
         }
         finally
         {
-            if (conn != null)
-            {
-                try
-                {
-                    conn.close();
-                }catch(SQLException ex)
-                {
-                    //ignore;
-                }
-            } 
-            if (stmt != null)
-            {
-                try
-                {
-                    stmt.close();
-                }catch(SQLException ex)
-                {
-                    //ignore;
-                }
-            }
+            close(conn);
+            conn = null; 
+          
+            close(stmt);
+            stmt = null;
+            
+            close(rs);
+            rs = null;
         }
                 
     }
@@ -207,26 +196,12 @@ public class Manager extends HttpServlet
         }
         finally
         {
-            if (conn != null)
-            {
-                try
-                {
-                    conn.close();
-                }catch(SQLException ex)
-                {
-                    //ignore;
-                }
-            } 
-            if (stmt != null)
-            {
-                try
-                {
-                    stmt.close();
-                }catch(SQLException ex)
-                {
-                    //ignore;
-                }
-            }
+            close(conn);
+            conn = null; 
+          
+            close(stmt);
+            stmt = null;
+            
         }
     }
     protected Connection createConnection() throws SQLException
@@ -240,5 +215,16 @@ public class Manager extends HttpServlet
             //ignore
         }
         return DriverManager.getConnection(jdbcUrl);
+    }
+    protected void close(AutoCloseable obj) 
+    {
+        try
+        {
+            obj.close();
+        }
+        catch(Exception ex)
+        {
+            //ignore;
+        }
     }
 }
