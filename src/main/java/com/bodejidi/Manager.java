@@ -37,10 +37,18 @@ public class Manager extends HttpServlet
         ResultSet rs = null;
         
         PrintWriter out = resp.getWriter();
-       
         try
-        {  
-            conn = createConnection();
+        {        
+            Class.forName(jdbcDriver).newInstance();    
+        }
+        catch(Exception ex)
+        {
+            //ignore
+        }
+        
+        try
+        {
+            conn = DriverManager.getConnection(jdbcUrl);                                   
             String pid = req.getParameter(FORM_ID);
             stmt = conn.createStatement();
             String sql = "SELECT * FROM " + SHIHANG_TABLE;
@@ -239,17 +247,5 @@ public class Manager extends HttpServlet
                 }
             }
         }
-    }
-    protected Connection createConnection() throws SQLException
-    {
-        try
-        {        
-            Class.forName(jdbcDriver).newInstance();    
-        }
-        catch(Exception ex)
-        {
-            //ignore
-        }
-        return DriverManager.getConnection(jdbcUrl);
     }
 }
