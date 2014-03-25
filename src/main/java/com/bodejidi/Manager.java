@@ -132,7 +132,6 @@ public class Manager extends HttpServlet
         String firstName = req.getParameter("first_name");
         String lastName = req.getParameter("last_name");
         String paraId = req.getParameter("hidden_update");
-        String paraIntr = req.getParameter("introduce");
         String paraUpdate = req.getParameter("submit_update");
         String paraDelete = req.getParameter("submit_delete");
         resp.setContentType("text/html;charset=UTF-8");
