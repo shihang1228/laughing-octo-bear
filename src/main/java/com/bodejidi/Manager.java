@@ -16,6 +16,7 @@ import java.sql.DriverManager;
 public class Manager extends HttpServlet
 {
     static final String jdbcUrl = "jdbc:mysql://localhost/test?" + "user=root" + "&password=";
+    static final String jdbcDriver = "com.mysql.jdbc.Driver";
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
@@ -27,8 +28,8 @@ public class Manager extends HttpServlet
         
         PrintWriter out = resp.getWriter();
         try
-        {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();           
+        {        
+            Class.forName(jdbcDriver).newInstance();    
         }
         catch(Exception ex)
         {
@@ -146,7 +147,7 @@ public class Manager extends HttpServlet
         
         try
         {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName(jdbcDriver).newInstance();
         }catch(Exception ex)
         {
             //ignore;
