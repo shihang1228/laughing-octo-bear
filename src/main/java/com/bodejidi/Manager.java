@@ -185,6 +185,7 @@ public class Manager extends HttpServlet
         ResultSet rs = null;
         
         PrintWriter out = resp.getWriter();
+        Member member = new Member();
        
         try
         {
@@ -200,10 +201,12 @@ public class Manager extends HttpServlet
             
             while(rs.next())
             {
-                Long id = rs.getLong(SHIHANG_ID);
-                String firstName = rs.getString(SHIHANG_FIRST_NAME);
-                String lastName = rs.getString(SHIHANG_LAST_NAME);
-                out.println("<tr><td><a href=\"?id=" + id + "\" >"+ id + "</a></td><td>" + firstName + lastName + "</td></tr>");         
+                member.setId(rs.getLong(SHIHANG_ID));
+                member.setFirstName(rs.getString(SHIHANG_FIRST_NAME)) ;
+                member.setLastName(rs.getString(SHIHANG_LAST_NAME));
+                out.println("<tr><td><a href=\"?id=" + member.getId() + "\" >"+ member.getId() 
+                          + "</a></td><td>" + member.getFirstName() + member.getLastName() 
+                          + "</td></tr>");         
             }
             
                 out.println("</table><a href=\".\">Add Member</a></body></html>");
@@ -238,6 +241,7 @@ public class Manager extends HttpServlet
         ResultSet rs = null;
         
         PrintWriter out = resp.getWriter();
+        Member member = new Member();
        
         try
         {
@@ -254,15 +258,15 @@ public class Manager extends HttpServlet
             out.println("<table border=\"2\"><tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>");
                 
             rs.next();
-            Long id = rs.getLong(SHIHANG_ID);
-            String firstName = rs.getString(SHIHANG_FIRST_NAME);
-            String lastName = rs.getString(SHIHANG_LAST_NAME);    
+            member.setId(rs.getLong(SHIHANG_ID));
+            member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
+            member.setLastName(rs.getString(SHIHANG_LAST_NAME));    
             
-            out.println("<tr><td>" + id + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + firstName + "\">" 
-                       + "</td><td><input type=\"text\" name=\"last_name\" value=\"" + lastName + "\"></td></tr></table></br>");
+            out.println("<tr><td>" + member.getId() + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + member.getFirstName() + "\">" 
+                       + "</td><td><input type=\"text\" name=\"last_name\" value=\"" + member.getLastName() + "\"></td></tr></table></br>");
             out.println("<input type=\"submit\" name=\"action\" value=\"update\">");
             out.println("<input type=\"submit\" name=\"action\" value=\"delete\">");
-            out.println("<input type=\"hidden\" name=\"id\" value=\"" + id + "\">");
+            out.println("<input type=\"hidden\" name=\"id\" value=\"" + member.getId() + "\">");
             out.println("</form><a href=\".\">Add Member</a></body></html>");
         }
         catch(SQLException ex)
