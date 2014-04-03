@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.lang.AutoCloseable;
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Manager extends HttpServlet
 {
@@ -186,10 +188,12 @@ public class Manager extends HttpServlet
         ResultSet rs = null;
         
         PrintWriter out = resp.getWriter();
-        Member member = new Member();
+        
        
         try
         {
+            List<Member>memberList = new ArrayList<Member>();
+        
             conn = createConnection();
             stmt = conn.createStatement();
             
@@ -202,15 +206,20 @@ public class Manager extends HttpServlet
             
             while(rs.next())
             {
+                Member member = new Member();
                 member.setId(rs.getLong(SHIHANG_ID));
                 member.setFirstName(rs.getString(SHIHANG_FIRST_NAME)) ;
                 member.setLastName(rs.getString(SHIHANG_LAST_NAME));
-                out.println("<tr><td><a href=\"?id=" + member.getId() + "\" >"+ member.getId() 
-                          + "</a></td><td>" + member.getFirstName() + member.getLastName() 
-                          + "</td></tr>");         
+                memberList.add(member);
             }
             
-                out.println("</table><a href=\".\">Add Member</a></body></html>");
+            for(Member member: memberList)
+            {
+                out.println("<tr><td><a href=\"?id=" + member.getId() + "\" >"+ member.getId() 
+                          + "</a></td><td>" + member.getFirstName() + member.getLastName() 
+                          + "</td></tr>");  
+            } 
+            out.println("</table><a href=\".\">Add Member</a></body></html>");
         }
         catch(SQLException ex)
         {
