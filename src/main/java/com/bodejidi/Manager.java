@@ -192,28 +192,11 @@ public class Manager extends HttpServlet
        
         try
         {
-            List<Member>memberList = new ArrayList<Member>();
-        
-            conn = createConnection();
-            stmt = conn.createStatement();
-            
-            String sql = "SELECT * FROM " + SHIHANG_TABLE;
-            debug(sql);
-            rs = stmt.executeQuery(sql);
-            
+     
             out.println("<html><head><title>会员管理</title></head><body><h1>会员列表</h1><table border=\"2\">");
             out.println("<tr><th>ID</th><th>Name</th></tr>");
-            
-            while(rs.next())
-            {
-                Member member = new Member();
-                member.setId(rs.getLong(SHIHANG_ID));
-                member.setFirstName(rs.getString(SHIHANG_FIRST_NAME)) ;
-                member.setLastName(rs.getString(SHIHANG_LAST_NAME));
-                memberList.add(member);
-            }
-            
-            for(Member member: memberList)
+           
+            for(Member member: findAllMember())
             {
                 out.println("<tr><td><a href=\"?id=" + member.getId() + "\" >"+ member.getId() 
                           + "</a></td><td>" + member.getFirstName() + member.getLastName() 
@@ -228,17 +211,7 @@ public class Manager extends HttpServlet
             debug("VendorError: " + ex.getErrorCode());
             out.println("Error!");
         }
-        finally
-        {
-            close(conn);
-            conn = null; 
-          
-            close(stmt);
-            stmt = null;
-            
-            close(rs);
-            rs = null;
-        }
+        
     }
     public void show(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
     {
@@ -297,5 +270,42 @@ public class Manager extends HttpServlet
             conn = null;           
         }
         return member;
+    }
+    public List<Member> findAllMember() throws SQLException
+    {
+        List<Member> memberList = new ArrayList<Member>();
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        
+        try
+        {
+            conn = createConnection();
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM " + SHIHANG_TABLE;
+            debug(sql);
+            rs = stmt.executeQuery(sql);
+            while(rs.next())
+            {
+                Member member = new Member();
+                member.setId(rs.getLong(SHIHANG_ID));
+                member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
+                member.setLastName(rs.getString(SHIHANG_LAST_NAME));
+                memberList.add(member);
+                
+            }
+        }
+        finally
+        {
+            close(rs);
+            rs = null;
+            
+            close(stmt);
+            stmt = null;
+            
+            close(conn);
+            conn = null;
+        }
+        return memberList;
     }
 }
