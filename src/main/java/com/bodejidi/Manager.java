@@ -36,11 +36,8 @@ public class Manager extends HttpServlet
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {         
-            resp.setContentType(contentType);
-            
+            resp.setContentType(contentType);           
             PrintWriter out = resp.getWriter();
-            String pid = req.getParameter(FORM_ID);
-            
             String action = req.getParameter("action");
             HttpSession session = req.getSession();
             
@@ -60,7 +57,7 @@ public class Manager extends HttpServlet
                 out.println("</form></body></html>");
                 return;
             }
-            if (pid == null)
+            if (req.getParameter(FORM_ID) == null)
             {
                 list(req,resp);
             }
