@@ -94,13 +94,14 @@ public class Manager extends HttpServlet
                     HttpSession session = req.getSession();
                     session.setAttribute("memberId", 0L);
                     out.println("login success!");
-                    out.println("<a href=\"member\">member list</a>");
+                    out.println("<a href=\"member\">member list</a></br>");
                     out.println("<a href=\"?action=logout\">logout</a>");
                     
                 }
                 else
                 {
                     out.println("login failed");
+                    out.println("<a href=\".\">return</a>");
                 }
                 return;
             }
@@ -232,36 +233,14 @@ public class Manager extends HttpServlet
     }
     public void show(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
     {
-        resp.setContentType(contentType);
-        
-        String pid = req.getParameter(FORM_ID);
-        
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
         
         PrintWriter out = resp.getWriter();
-        Member member = new Member();
-       
         try
         {
-            conn = createConnection();
-            stmt = conn.createStatement();
-            
-            String sql = "SELECT * FROM " + SHIHANG_TABLE;
-            sql = sql + " " + " WHERE " + SHIHANG_ID + " = " + pid;
-            debug(sql);
- 
-            rs = stmt.executeQuery(sql);
-            
+            String pid = req.getParameter(FORM_ID);
+            Member member = getMemberById(pid);
             out.println("<html><head><title>指定会员</title></head><body><h1>指定会员</h1><form action=\"member\" method=\"POST\">");
             out.println("<table border=\"2\"><tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>");
-                
-            rs.next();
-            member.setId(rs.getLong(SHIHANG_ID));
-            member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
-            member.setLastName(rs.getString(SHIHANG_LAST_NAME));    
-            
             out.println("<tr><td>" + member.getId() + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + member.getFirstName() + "\">" 
                        + "</td><td><input type=\"text\" name=\"last_name\" value=\"" + member.getLastName() + "\"></td></tr></table></br>");
             out.println("<input type=\"submit\" name=\"action\" value=\"update\">");
@@ -276,16 +255,38 @@ public class Manager extends HttpServlet
             debug("VendorError: " + ex.getErrorCode());
             out.println("Error!");
         }
+    }
+    public Member getMemberById(String pid) throws SQLException
+    {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        Member member = new Member();
+        try
+        {           
+            conn = createConnection();
+            stmt = conn.createStatement();
+            
+            String sql = "SELECT * FROM " + SHIHANG_TABLE;
+            sql = sql + " " + " WHERE " + SHIHANG_ID + " = " + pid;
+            debug(sql);
+            rs = stmt.executeQuery(sql);      
+            rs.next();
+            member.setId(rs.getLong(SHIHANG_ID));
+            member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
+            member.setLastName(rs.getString(SHIHANG_LAST_NAME));  
+        }
         finally
         {
-            close(conn);
-            conn = null; 
-          
+            close(rs);
+            rs = null;
+            
             close(stmt);
             stmt = null;
             
-            close(rs);
-            rs = null;
+            close(conn);
+            conn = null;           
         }
+        return member;
     }
 }
