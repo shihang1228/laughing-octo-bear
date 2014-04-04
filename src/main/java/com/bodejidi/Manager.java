@@ -100,7 +100,7 @@ public class Manager extends HttpServlet
                 else
                 {
                     out.println("login failed");
-                    out.println("<a href=\".\">return</a>");
+                    out.println("<a href=\"?action=logout\">return</a>");
                 }
                 return;
             }
@@ -307,6 +307,6 @@ public class Manager extends HttpServlet
     }
     public String showLoginInfo()
     {
-        return "welcome,admin!";
+        return "welcome,admin!<a href=\"?action=logout\">logout</a>";
     }
 }
