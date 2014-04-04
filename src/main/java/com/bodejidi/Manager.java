@@ -216,7 +216,6 @@ public class Manager extends HttpServlet
     {
         Member member = new Member();
         DataBaseService ds = new DataBaseService();
-        ResultSet rs = null;
         
         try
         {           
@@ -224,7 +223,7 @@ public class Manager extends HttpServlet
             String sql = "SELECT * FROM " + SHIHANG_TABLE;
             sql = sql + " " + " WHERE " + SHIHANG_ID + " = " + pid;
             debug(sql);
-            rs = ds.executeQuery(sql);   
+            ResultSet rs = ds.executeQuery(sql);   
             rs.next();
             member.setId(rs.getLong(SHIHANG_ID));
             member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
@@ -239,17 +238,14 @@ public class Manager extends HttpServlet
     public List<Member> findAllMember() throws SQLException
     {
         List<Member> memberList = new ArrayList<Member>();
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
+        DataBaseService ds = new DataBaseService();
         
         try
         {
-            conn = createConnection();
-            stmt = conn.createStatement();
+
             String sql = "SELECT * FROM " + SHIHANG_TABLE;
             debug(sql);
-            rs = stmt.executeQuery(sql);
+            ResultSet rs = ds.executeQuery(sql);
             while(rs.next())
             {
                 Member member = new Member();
@@ -262,14 +258,7 @@ public class Manager extends HttpServlet
         }
         finally
         {
-            close(rs);
-            rs = null;
-            
-            close(stmt);
-            stmt = null;
-            
-            close(conn);
-            conn = null;
+            ds.close();
         }
         return memberList;
     }
