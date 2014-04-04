@@ -149,29 +149,7 @@ public class Manager extends HttpServlet
             
         }
     }
-    protected Connection createConnection() throws SQLException
-    {
-        try
-        {        
-            Class.forName(jdbcDriver).newInstance();    
-        }
-        catch(Exception ex)
-        {
-            //ignore
-        }
-        return DriverManager.getConnection(jdbcUrl);
-    }
-    protected void close(AutoCloseable obj) 
-    {
-        try
-        {
-            obj.close();
-        }
-        catch(Exception ex)
-        {
-            //ignore;
-        }
-    }
+   
     public void debug(String str)
     {
         System.out.println("[DEBUG] " + new Date() + " " + str);
@@ -184,9 +162,7 @@ public class Manager extends HttpServlet
         Statement stmt = null;
         ResultSet rs = null;
         
-        PrintWriter out = resp.getWriter();
-        
-       
+        PrintWriter out = resp.getWriter();       
         try
         {
      
@@ -218,6 +194,7 @@ public class Manager extends HttpServlet
         {
             String pid = req.getParameter(FORM_ID);
             Member member = getMemberById(pid);
+            
             out.println("<html><head><title>指定会员</title></head><body>" + showLoginInfo() + "<h1>指定会员</h1><form action=\"member\" method=\"POST\">");
             out.println("<table border=\"2\"><tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>");
             out.println("<tr><td>" + member.getId() + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + member.getFirstName() + "\">" 
@@ -237,34 +214,25 @@ public class Manager extends HttpServlet
     }
     public Member getMemberById(String pid) throws SQLException
     {
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
         Member member = new Member();
+        DataBaseService ds = new DataBaseService();
+        ResultSet rs = null;
+        
         try
         {           
-            conn = createConnection();
-            stmt = conn.createStatement();
             
             String sql = "SELECT * FROM " + SHIHANG_TABLE;
             sql = sql + " " + " WHERE " + SHIHANG_ID + " = " + pid;
             debug(sql);
-            rs = stmt.executeQuery(sql);      
+            rs = ds.executeQuery(sql);   
             rs.next();
             member.setId(rs.getLong(SHIHANG_ID));
             member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
             member.setLastName(rs.getString(SHIHANG_LAST_NAME));  
         }
         finally
-        {
-            close(rs);
-            rs = null;
-            
-            close(stmt);
-            stmt = null;
-            
-            close(conn);
-            conn = null;           
+        { 
+            ds.close();
         }
         return member;
     }
@@ -308,5 +276,28 @@ public class Manager extends HttpServlet
     public String showLoginInfo()
     {
         return "welcome,admin!<a href=\"?action=logout\">logout</a>";
+    }
+     protected Connection createConnection() throws SQLException
+    {
+        try
+        {        
+            Class.forName(jdbcDriver).newInstance();    
+        }
+        catch(Exception ex)
+        {
+            //ignore
+        }
+        return DriverManager.getConnection(jdbcUrl);
+    }
+        protected void close(AutoCloseable obj) 
+    {
+        try
+        {
+            obj.close();
+        }
+        catch(Exception ex)
+        {
+            //ignore;
+        }        
     }
 }
