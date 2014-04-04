@@ -119,12 +119,8 @@ public class Manager extends HttpServlet
             }
             else
             {
-                String sql = "INSERT INTO " + SHIHANG_TABLE + " ( " + SHIHANG_FIRST_NAME + ", " + SHIHANG_LAST_NAME + " ," +SHIHANG_DATE_CREATED + "," + SHIHANG_LAST_UPDATED + ") VALUES('"
-                            + firstName + "','" + lastName +"',now(),now())";
-                debug("SQL: " + sql);
-                stmt.execute(sql);
-                out.println("Add " + firstName + " " + lastName + " Success!");
-                out.println("<a href=\"member\">Member List</a>");
+                create(req,resp);
+               
             }
             
         }
@@ -287,5 +283,31 @@ public class Manager extends HttpServlet
         out.println("<label>Password:<input type=\"password\" name=\"password\"></label>");
         out.println("<input type=\"submit\" name=\"action\" value=\"login\">");
         out.println("</form></body></html>");
+    }
+    
+    public void  create(HttpServletRequest req,HttpServletResponse resp) throws IOException ,ServletException 
+    {
+        Statement stmt = null;
+        PrintWriter out = resp.getWriter();            
+        String firstName = req.getParameter(FORM_FIRST_NAME);
+        String lastName = req.getParameter(FORM_LAST_NAME);
+        try
+        {  
+
+            DataBaseService ds = DataBaseService.newInstance();
+            String sql = "INSERT INTO " + SHIHANG_TABLE + " ( " + SHIHANG_FIRST_NAME + ", " + SHIHANG_LAST_NAME + " ," +SHIHANG_DATE_CREATED + "," + SHIHANG_LAST_UPDATED + ") VALUES('"
+                            + firstName + "','" + lastName +"',now(),now())";
+            debug("SQL: " + sql);
+            ds.execute(sql);
+            out.println("Add " + firstName + " " + lastName + " Success!");
+            out.println("<a href=\"member\">Member List</a>");
+        }
+        catch (SQLException ex)
+        {
+            debug("SQLException: " + ex.getMessage());
+            debug("SQLState: " + ex.getSQLState());
+            debug("VendorError: " + ex.getErrorCode());
+            out.println("Error!");
+        }
     }
 }
