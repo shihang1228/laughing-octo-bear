@@ -65,73 +65,40 @@ public class Manager extends HttpServlet
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
     {
         resp.setContentType(contentType);
-    
-        String firstName = req.getParameter(FORM_FIRST_NAME);
-        String lastName = req.getParameter(FORM_LAST_NAME);
-        String paraId = req.getParameter(FORM_ID);
-        String paraAction = req.getParameter("action");
-           
+        String paraAction = req.getParameter("action");           
         PrintWriter out = resp.getWriter();
 
-        Connection conn = null;
-        Statement stmt = null;
-        try
+        if("login".equals(paraAction))
         {
-            conn = createConnection();                                   
-            stmt = conn.createStatement();
-            
-            if("login".equals(paraAction))
+            String userName = req.getParameter("user_name");
+            String password = req.getParameter("password");
+            if(userName.equals("bai")&&password.equals("shi"))
             {
-                String userName = req.getParameter("user_name");
-                String password = req.getParameter("password");
-                if(userName.equals("bai")&&password.equals("shi"))
-                {
-                    HttpSession session = req.getSession();
-                    session.setAttribute("memberId", 0L);
-                    out.println("login success!");
-                    out.println("<a href=\"member\">member list</a></br>");
-                    out.println("<a href=\"?action=logout\">logout</a>");
-                    
-                }
-                else
-                {
-                    out.println("login failed");
-                    out.println("<a href=\"?action=logout\">return</a>");
-                }
-                return;
-            }
-        
-            else if("update".equals(paraAction))
-            {             
-                update(req,resp);
-            }
-            else if("delete".equals(paraAction))
-            {
-                delete(req,resp);
+                HttpSession session = req.getSession();
+                session.setAttribute("memberId", 0L);
+                out.println("login success!");
+                out.println("<a href=\"member\">member list</a></br>");
+                out.println("<a href=\"?action=logout\">logout</a>");                    
             }
             else
             {
-                create(req,resp);
-               
+                out.println("login failed");
+                out.println("<a href=\"?action=logout\">return</a>");
             }
-            
+            return;
+        }        
+        else if("update".equals(paraAction))
+        {             
+            update(req,resp);
         }
-        catch(SQLException ex)
+        else if("delete".equals(paraAction))
         {
-            debug("SQLException: " + ex.getMessage());
-            debug("SQLState: " + ex.getSQLState());
-            debug("VendorError: " + ex.getErrorCode());
-            out.println("Error!");
+            delete(req,resp);
         }
-        finally
+        else
         {
-            close(conn);
-            conn = null; 
-          
-            close(stmt);
-            stmt = null;
-            
-        }
+            create(req,resp);
+        }            
     }
    
     public void debug(String str)
@@ -203,15 +170,24 @@ public class Manager extends HttpServlet
         String sql = "SELECT * FROM " + SHIHANG_TABLE;
         sql = sql + " " + " WHERE " + SHIHANG_ID + " = " + pid;
         debug(sql);
-        DataBaseService ds = DataBaseService.newInstance();
-        ResultSet rs = ds.executeQuery(sql);   
-        rs.next();
-        member.setId(rs.getLong(SHIHANG_ID));
-        member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
-        member.setLastName(rs.getString(SHIHANG_LAST_NAME));  
-        ds.close();
-
+        DataBaseService ds = null;
+        try
+        {
+            ds = DataBaseService.newInstance();
+            ResultSet rs = ds.executeQuery(sql);   
+            rs.next();
+            member.setId(rs.getLong(SHIHANG_ID));
+            member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
+            member.setLastName(rs.getString(SHIHANG_LAST_NAME));  
+            
+        }
+        finally
+        {
+            ds.close();
+        }
         return member;
+
+        
     } 
     public List<Member> findAllMember() throws SQLException
     {
