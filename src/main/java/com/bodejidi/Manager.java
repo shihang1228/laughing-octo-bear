@@ -103,11 +103,7 @@ public class Manager extends HttpServlet
         
             else if("update".equals(paraAction))
             {             
-                String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "='" + firstName + "' , " + SHIHANG_LAST_NAME + "='" + lastName + "'where " + SHIHANG_ID + "=" + paraId;
-                debug("SQL: " + sql);
-                stmt.execute(sql);
-                out.println("Update " + firstName + " " + lastName + " Success!");
-                out.println("<a href=\"member\">Member List</a>");
+                update(req,resp);
             }
             else if("delete".equals(paraAction))
             {
@@ -319,6 +315,30 @@ public class Manager extends HttpServlet
             debug("SQL: " + sql);
             ds.execute(sql);
             out.println("delete " + firstName + " " + lastName + " Success!");
+            out.println("<a href=\"member\">Member List</a>");
+        }
+        catch(SQLException ex)
+        {
+            debug("SQLException: " + ex.getMessage());
+            debug("SQLState: " + ex.getSQLState());
+            debug("VendorError: " + ex.getErrorCode());
+            out.println("Error!");
+        }
+    } 
+    public void update(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
+    {
+        String firstName = req.getParameter(FORM_FIRST_NAME);
+        String lastName = req.getParameter(FORM_LAST_NAME);
+        String paraId = req.getParameter(FORM_ID);
+        PrintWriter out = resp.getWriter();
+        
+        try
+        {
+            DataBaseService ds = DataBaseService.newInstance();
+            String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "='" + firstName + "' , " + SHIHANG_LAST_NAME + "='" + lastName + "'where " + SHIHANG_ID + "=" + paraId;
+            debug("SQL: " + sql);
+            ds.execute(sql);
+            out.println("Update " + firstName + " " + lastName + " Success!");
             out.println("<a href=\"member\">Member List</a>");
         }
         catch(SQLException ex)
