@@ -215,30 +215,24 @@ public class Manager extends HttpServlet
     public Member getMemberById(String pid) throws SQLException
     {
         Member member = new Member();
-        DataBaseService ds = new DataBaseService();
         
-        try
-        {           
-            
-            String sql = "SELECT * FROM " + SHIHANG_TABLE;
-            sql = sql + " " + " WHERE " + SHIHANG_ID + " = " + pid;
-            debug(sql);
-            ResultSet rs = ds.executeQuery(sql);   
-            rs.next();
-            member.setId(rs.getLong(SHIHANG_ID));
-            member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
-            member.setLastName(rs.getString(SHIHANG_LAST_NAME));  
-        }
-        finally
-        { 
-            ds.close();
-        }
+        String sql = "SELECT * FROM " + SHIHANG_TABLE;
+        sql = sql + " " + " WHERE " + SHIHANG_ID + " = " + pid;
+        debug(sql);
+        DataBaseService ds = DataBaseService.newInstance();
+        ResultSet rs = ds.executeQuery(sql);   
+        rs.next();
+        member.setId(rs.getLong(SHIHANG_ID));
+        member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
+        member.setLastName(rs.getString(SHIHANG_LAST_NAME));  
+        ds.close();
+
         return member;
-    }
+    } 
     public List<Member> findAllMember() throws SQLException
     {
         List<Member> memberList = new ArrayList<Member>();
-        DataBaseService ds = new DataBaseService();
+        DataBaseService ds = DataBaseService.newInstance();
         
         try
         {
