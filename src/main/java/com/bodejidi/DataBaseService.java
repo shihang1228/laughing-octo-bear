@@ -12,18 +12,25 @@ public class DataBaseService
     static final String jdbcUrl = "jdbc:mysql://localhost/test?" + "user=root" + "&password=";
     static final String jdbcDriver = "com.mysql.jdbc.Driver";
     
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
+    private Connection conn = null;
+    private Statement stmt = null;
+    private ResultSet rs = null;
     
-    public DataBaseService()
+    private DataBaseService()
     {
         
-    }   
+    }
+    static public DataBaseService newInstance() throws SQLException
+    {
+        DataBaseService ds = new DataBaseService();
+        ds.conn = ds.createConnection();
+        ds.stmt = ds.conn.createStatement();
+        return ds;
+
+    }
     public ResultSet executeQuery(String sql) throws SQLException
     {
-        conn = createConnection();
-        stmt = conn.createStatement();
+        
         return stmt.executeQuery(sql);
         
     }
@@ -38,6 +45,10 @@ public class DataBaseService
             //ignore
         }
         return DriverManager.getConnection(jdbcUrl);
+    }
+    public void execute(String sql) throws SQLException
+    {
+        stmt.execute(sql);
     }
     protected void close(AutoCloseable obj) 
     {
