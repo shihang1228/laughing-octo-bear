@@ -47,11 +47,16 @@ public class Manager extends HttpServlet
             }
             
             Long memberId = (Long)session.getAttribute("memberId");
-            
+                     
             if(memberId == null)
             {
                 login(req,resp);
                 return;
+            }
+            if(action == null || "".equals(action))
+            {
+                list(req,resp);
+                
             }
             switch(action.toLowerCase())
             {
@@ -61,6 +66,7 @@ public class Manager extends HttpServlet
                     list(req,resp); break;
                 case "show":
                     show(req,resp); break;
+                    
             }
     }
     
