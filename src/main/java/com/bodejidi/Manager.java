@@ -38,12 +38,9 @@ public class Manager extends HttpServlet
     {         
             resp.setContentType(contentType);           
             PrintWriter out = resp.getWriter();
-            String action = req.getParameter("action");
-            HttpSession session = req.getSession();
+            String action = req.getParameter("action");    
             
-            Long memberId = (Long)session.getAttribute("memberId");
-                     
-            if(memberId == null)
+            if(isNotLogin(req))
             {
                 showLoginPage(req,resp);
                 return;
@@ -110,8 +107,14 @@ public class Manager extends HttpServlet
         session.removeAttribute("memberId");
         resp.sendRedirect("member?action=login");
     }
-     public void showLoginFailed(HttpServletResponse resp)throws IOException,ServletException
-     {
+    public boolean isNotLogin(HttpServletRequest req) throws ServletException
+    { 
+        HttpSession session = req.getSession();
+        Long memberId = (Long)session.getAttribute("memberId");
+        return null == memberId;
+    }
+    public void showLoginFailed(HttpServletResponse resp)throws IOException,ServletException
+    {
         PrintWriter out = resp.getWriter();
         out.println("login failed");
         out.println("<a href=\"?action=logout\">return</a>");
