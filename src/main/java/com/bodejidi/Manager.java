@@ -53,20 +53,19 @@ public class Manager extends HttpServlet
                 login(req,resp);
                 return;
             }
-            if(action == null || "".equals(action))
+            if(action==null || "".equals(action))
             {
                 list(req,resp);
-                
+                return;
             }
             switch(action.toLowerCase())
             {
                 case "create":
                     create(req, resp); break;
-                case "list":
-                    list(req,resp); break;
                 case "show":
                     show(req,resp); break;
-                    
+                default :
+                    list(req,resp); 
             }
     }
     
