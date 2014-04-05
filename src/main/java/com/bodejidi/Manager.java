@@ -87,9 +87,10 @@ public class Manager extends HttpServlet
                 update(req, resp); break;
             case "delete":
                 delete(req, resp); break;
-            default:
+            case "save":
                 save(req, resp); break;
-                
+            default:
+                resp.sendError(HttpServletResponse.SC_FORBIDDEN,"connot find!");
         }
     }
     public void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
