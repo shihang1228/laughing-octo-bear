@@ -53,11 +53,16 @@ public class Manager extends HttpServlet
                 login(req,resp);
                 return;
             }
-            if (req.getParameter(FORM_ID) == null)
+            if("create".equals(action))
+            {
+                create(req,resp);
+                return;
+            }
+            if ("list".equals(action))
             {
                 list(req,resp);
             }
-            else
+            else if("show".equals(action))
             {
                 show(req,resp); 
             }
@@ -77,7 +82,7 @@ public class Manager extends HttpServlet
                 HttpSession session = req.getSession();
                 session.setAttribute("memberId", 0L);
                 out.println("login success!");
-                out.println("<a href=\"member\">member list</a></br>");
+                out.println("<a href=\"?action=list\">member list</a></br>");
                 out.println("<a href=\"?action=logout\">logout</a>");                    
             }
             else
@@ -122,11 +127,11 @@ public class Manager extends HttpServlet
            
             for(Member member: findAllMember())
             {
-                out.println("<tr><td><a href=\"?id=" + member.getId() + "\" >"+ member.getId() 
+                out.println("<tr><td><a href=\"?action=show&id=" + member.getId() + "\" >"+ member.getId() 
                           + "</a></td><td>" + member.getFirstName() + member.getLastName() 
                           + "</td></tr>");  
             } 
-            out.println("</table><a href=\".\">Add Member</a></body></html>");
+            out.println("</table><a href=\"?action=create\">Add Member</a></body></html>");
         }
         catch(SQLException ex)
         {
@@ -153,7 +158,7 @@ public class Manager extends HttpServlet
             out.println("<input type=\"submit\" name=\"action\" value=\"update\">");
             out.println("<input type=\"submit\" name=\"action\" value=\"delete\">");
             out.println("<input type=\"hidden\" name=\"id\" value=\"" + member.getId() + "\">");
-            out.println("</form><a href=\".\">Add Member</a></body></html>");
+            out.println("</form><a href=\"?action=create\">Add Member</a></body></html>");
         }
         catch(SQLException ex)
         {
@@ -257,7 +262,7 @@ public class Manager extends HttpServlet
             debug("SQL: " + sql);
             ds.execute(sql);
             out.println("Add " + firstName + " " + lastName + " Success!");
-            out.println("<a href=\"member\">Member List</a>");
+            out.println("<a href=\"?action=list\">Member List</a>");
         }
         catch (SQLException ex)
         {
@@ -286,7 +291,7 @@ public class Manager extends HttpServlet
             debug("SQL: " + sql);
             ds.execute(sql);
             out.println("delete " + firstName + " " + lastName + " Success!");
-            out.println("<a href=\"member\">Member List</a>");
+            out.println("<a href=\"?action=list\">Member List</a>");
         }
         catch(SQLException ex)
         {
@@ -316,7 +321,7 @@ public class Manager extends HttpServlet
             debug("SQL: " + sql);
             ds.execute(sql);
             out.println("Update " + firstName + " " + lastName + " Success!");
-            out.println("<a href=\"member\">Member List</a>");
+            out.println("<a href=\"?action=list\">Member List</a>");
         }
         catch(SQLException ex)
         {
@@ -345,7 +350,7 @@ public class Manager extends HttpServlet
         out.println("<label>LastName :<input type=\"text\" name=\"last_name\"/></label></br>");
         out.println("<input type=\"submit\" value=\"提交\"/>");
         out.println("</form>");
-        out.println("<a href=\"member\">Member List</a>");
+        out.println("<a href=\"?action=list\">Member List</a>");
         out.println("</body>");
         out.println("</html>");
 
