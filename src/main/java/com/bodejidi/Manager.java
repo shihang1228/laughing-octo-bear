@@ -115,9 +115,9 @@ public class Manager extends HttpServlet
         PrintWriter out = resp.getWriter();              
         out.println("<html><head>");
         out.println("<meta http-equiv=\"refresh\" content=\"" + timeout + ";url=?action=list\"></head><body>");
-        out.println("login success!");
-        
-        out.println("<a href=\"?action=list\">member list</a></br>");
+        out.println("login success!</br>");
+        out.println("please wait for " + timeout + "seconds,if not redirct,please click");
+        out.println("<a href=\"?action=list\">here</a></br>");
         out.println("<a href=\"?action=logout\">logout</a>");   
         out.println("</body></html>");
     }
