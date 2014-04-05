@@ -53,18 +53,14 @@ public class Manager extends HttpServlet
                 login(req,resp);
                 return;
             }
-            if("create".equals(action))
+            switch(action.toLowerCase())
             {
-                create(req,resp);
-                return;
-            }
-            if ("list".equals(action))
-            {
-                list(req,resp);
-            }
-            else if("show".equals(action))
-            {
-                show(req,resp); 
+                case "create":
+                    create(req, resp); break;
+                case "list":
+                    list(req,resp); break;
+                case "show":
+                    show(req,resp); break;
             }
     }
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
@@ -196,11 +192,11 @@ public class Manager extends HttpServlet
     public List<Member> findAllMember() throws SQLException
     {
         List<Member> memberList = new ArrayList<Member>();
-        DataBaseService ds = DataBaseService.newInstance();
+        DataBaseService ds = null;
         
         try
         {
-
+            ds = DataBaseService.newInstance();
             String sql = "SELECT * FROM " + SHIHANG_TABLE;
             debug(sql);
             ResultSet rs = ds.executeQuery(sql);
