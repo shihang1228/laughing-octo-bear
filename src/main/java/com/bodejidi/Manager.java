@@ -63,6 +63,7 @@ public class Manager extends HttpServlet
                     show(req,resp); break;
             }
     }
+    
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
     {
         resp.setContentType(contentType);
@@ -77,9 +78,7 @@ public class Manager extends HttpServlet
             {
                 HttpSession session = req.getSession();
                 session.setAttribute("memberId", 0L);
-                out.println("login success!");
-                out.println("<a href=\"?action=list\">member list</a></br>");
-                out.println("<a href=\"?action=logout\">logout</a>");                    
+                showLoginSuccess(resp);                 
             }
             else
             {
@@ -100,6 +99,14 @@ public class Manager extends HttpServlet
         {
             save(req,resp);
         }            
+    }
+    
+    public void showLoginSuccess(HttpServletResponse resp)throws IOException,ServletException
+    {
+        PrintWriter out = resp.getWriter();
+        out.println("login success!");
+        out.println("<a href=\"?action=list\">member list</a></br>");
+        out.println("<a href=\"?action=logout\">logout</a>");      
     }
    
     public void debug(String str)
