@@ -111,10 +111,15 @@ public class Manager extends HttpServlet
     
     public void showLoginSuccess(HttpServletResponse resp)throws IOException,ServletException
     {
-        PrintWriter out = resp.getWriter();
+        Integer timeout = 5;
+        PrintWriter out = resp.getWriter();              
+        out.println("<html><head>");
+        out.println("<meta http-equiv=\"refresh\" content=\"" + timeout + ";url=?action=list\"></head><body>");
         out.println("login success!");
+        
         out.println("<a href=\"?action=list\">member list</a></br>");
-        out.println("<a href=\"?action=logout\">logout</a>");      
+        out.println("<a href=\"?action=logout\">logout</a>");   
+        out.println("</body></html>");
     }
    
     public void debug(String str)
