@@ -97,7 +97,7 @@ public class Manager extends HttpServlet
         }
         else
         {
-            create(req,resp);
+            save(req,resp);
         }            
     }
    
@@ -178,8 +178,7 @@ public class Manager extends HttpServlet
             rs.next();
             member.setId(rs.getLong(SHIHANG_ID));
             member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
-            member.setLastName(rs.getString(SHIHANG_LAST_NAME));  
-            
+            member.setLastName(rs.getString(SHIHANG_LAST_NAME));             
         }
         finally
         {
@@ -232,17 +231,7 @@ public class Manager extends HttpServlet
         }
         return DriverManager.getConnection(jdbcUrl);
     }
-        protected void close(AutoCloseable obj) 
-    {
-        try
-        {
-            obj.close();
-        }
-        catch(Exception ex)
-        {
-            //ignore;
-        }        
-    }
+        
     public void login(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
         PrintWriter out = resp.getWriter();
@@ -253,15 +242,16 @@ public class Manager extends HttpServlet
         out.println("</form></body></html>");
     }
     
-    public void  create(HttpServletRequest req,HttpServletResponse resp) throws IOException ,ServletException 
+    public void  save(HttpServletRequest req,HttpServletResponse resp) throws IOException ,ServletException 
     {
         PrintWriter out = resp.getWriter();            
         String firstName = req.getParameter(FORM_FIRST_NAME);
         String lastName = req.getParameter(FORM_LAST_NAME);
+        DataBaseService ds = null;
         try
         {  
 
-            DataBaseService ds = DataBaseService.newInstance();
+            ds = DataBaseService.newInstance();
             String sql = "INSERT INTO " + SHIHANG_TABLE + " ( " + SHIHANG_FIRST_NAME + ", " + SHIHANG_LAST_NAME + " ," +SHIHANG_DATE_CREATED + "," + SHIHANG_LAST_UPDATED + ") VALUES('"
                             + firstName + "','" + lastName +"',now(),now())";
             debug("SQL: " + sql);
@@ -276,6 +266,10 @@ public class Manager extends HttpServlet
             debug("VendorError: " + ex.getErrorCode());
             out.println("Error!");
         }
+        finally
+        {
+            ds.close();
+        }
     }
     public void delete(HttpServletRequest req,HttpServletResponse resp) throws IOException ,ServletException 
     {
@@ -283,10 +277,11 @@ public class Manager extends HttpServlet
         String lastName = req.getParameter(FORM_LAST_NAME);
         String paraId = req.getParameter(FORM_ID);
         PrintWriter out = resp.getWriter();
+        DataBaseService ds = null;
         
         try
         {
-            DataBaseService ds = DataBaseService.newInstance();
+            ds = DataBaseService.newInstance();
             String sql = "delete from " + SHIHANG_TABLE + " where " + SHIHANG_ID  + "=" + paraId;
             debug("SQL: " + sql);
             ds.execute(sql);
@@ -300,6 +295,11 @@ public class Manager extends HttpServlet
             debug("VendorError: " + ex.getErrorCode());
             out.println("Error!");
         }
+        finally
+        {
+            ds.close();
+        }
+            
     } 
     public void update(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
@@ -307,10 +307,11 @@ public class Manager extends HttpServlet
         String lastName = req.getParameter(FORM_LAST_NAME);
         String paraId = req.getParameter(FORM_ID);
         PrintWriter out = resp.getWriter();
+        DataBaseService ds = null;
         
         try
         {
-            DataBaseService ds = DataBaseService.newInstance();
+            ds = DataBaseService.newInstance();
             String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "='" + firstName + "' , " + SHIHANG_LAST_NAME + "='" + lastName + "'where " + SHIHANG_ID + "=" + paraId;
             debug("SQL: " + sql);
             ds.execute(sql);
@@ -324,5 +325,29 @@ public class Manager extends HttpServlet
             debug("VendorError: " + ex.getErrorCode());
             out.println("Error!");
         }
+        finally
+        {
+            ds.close();
+        }
+    }
+    public void create(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
+    {
+        PrintWriter out = resp.getWriter();
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>会员管理</title>");
+        out.println("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>");	
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>Add Member</h1>");
+        out.println("<form action=\"member\" method=\"POST\">");
+        out.println("<label>firstName:<input type=\"text\" name=\"first_name\"/></label></br>");
+        out.println("<label>LastName :<input type=\"text\" name=\"last_name\"/></label></br>");
+        out.println("<input type=\"submit\" value=\"提交\"/>");
+        out.println("</form>");
+        out.println("<a href=\"member\">Member List</a>");
+        out.println("</body>");
+        out.println("</html>");
+
     }
 }
