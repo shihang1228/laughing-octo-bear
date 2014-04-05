@@ -346,11 +346,11 @@ public class Manager extends HttpServlet
         PrintWriter out = resp.getWriter();
         out.println("<html>");
         out.println("<head>");
-        out.println("<title>会员管理</title>");
+        out.println("<title>新增会员</title>");
         out.println("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>");	
         out.println("</head>");
         out.println("<body>");
-        out.println("<h1>Add Member</h1>");
+        out.println("<h1>新增会员</h1>");
         out.println("<form action=\"member\" method=\"POST\">");
         out.println("<label>firstName:<input type=\"text\" name=\"first_name\"/></label></br>");
         out.println("<label>LastName :<input type=\"text\" name=\"last_name\"/></label></br>");
