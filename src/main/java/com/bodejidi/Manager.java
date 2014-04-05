@@ -47,8 +47,8 @@ public class Manager extends HttpServlet
         }
         if(action==null || "".equals(action))
         {
-            list(req,resp);
-            return;
+            action = "list";
+           
         }
         switch(action.toLowerCase())
         {
@@ -59,7 +59,7 @@ public class Manager extends HttpServlet
             case "show":
                 show(req,resp); break;
             default :
-                list(req,resp); 
+               list(req,resp); 
         }
     }
     
