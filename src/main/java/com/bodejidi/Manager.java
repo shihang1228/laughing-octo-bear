@@ -58,8 +58,8 @@ public class Manager extends HttpServlet
                 create(req, resp); break;
             case "show":
                 show(req,resp); break;
-            default :
-               list(req,resp); 
+            case "list":
+                list(req,resp);
         }
     }
     
