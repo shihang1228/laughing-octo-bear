@@ -41,11 +41,6 @@ public class Manager extends HttpServlet
             String action = req.getParameter("action");
             HttpSession session = req.getSession();
             
-            if("logout".equals(action))
-            {   
-                logout(req);
-            }
-            
             Long memberId = (Long)session.getAttribute("memberId");
                      
             if(memberId == null)
@@ -60,6 +55,8 @@ public class Manager extends HttpServlet
             }
             switch(action.toLowerCase())
             {
+                case "logout":
+                    logout(req);break;
                 case "create":
                     create(req, resp); break;
                 case "show":
