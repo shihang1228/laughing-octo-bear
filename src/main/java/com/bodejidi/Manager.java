@@ -42,8 +42,8 @@ public class Manager extends HttpServlet
             HttpSession session = req.getSession();
             
             if("logout".equals(action))
-            {
-                session.removeAttribute("memberId");
+            {   
+                logout(req);
             }
             
             Long memberId = (Long)session.getAttribute("memberId");
@@ -101,6 +101,11 @@ public class Manager extends HttpServlet
                 save(req, resp); break;
                 
         }
+    }
+    public void logout(HttpServletRequest req) throws ServletException
+    {
+        HttpSession session = req.getSession();
+        session.removeAttribute("memberId");
     }
      public void showLoginFailed(HttpServletResponse resp)throws IOException,ServletException
      {
