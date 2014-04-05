@@ -56,7 +56,7 @@ public class Manager extends HttpServlet
             switch(action.toLowerCase())
             {
                 case "logout":
-                    logout(req);break;
+                    logout(req,resp);break;
                 case "create":
                     create(req, resp); break;
                 case "show":
@@ -99,16 +99,18 @@ public class Manager extends HttpServlet
                 
         }
     }
-    public void logout(HttpServletRequest req) throws ServletException
+    public void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         HttpSession session = req.getSession();
         session.removeAttribute("memberId");
+        resp.sendRedirect("member?action=login");
     }
      public void showLoginFailed(HttpServletResponse resp)throws IOException,ServletException
      {
         PrintWriter out = resp.getWriter();
         out.println("login failed");
         out.println("<a href=\"?action=logout\">return</a>");
+        
      }
     
     public void showLoginSuccess(HttpServletResponse resp)throws IOException,ServletException
