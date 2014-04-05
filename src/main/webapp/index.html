@@ -4,12 +4,9 @@
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
     </head>
     <body>
-        <h1>Add Member</h1>
-        <form action="member" method="POST">
-            <label>firstName:<input type="text" name="first_name"/></label></br>
-            <label>LastName :<input type="text" name="last_name"/></label></br>
-            <input type="submit" value="提交"/>
-        </form>
-        <a href="member">Member List</a>
+        <ul>
+            <li><a href="member?action=create">创建会员</a></li>
+            <li><a href="member?action=list">会员列表</a></li>
+        </ul>
     </body>
 </html>
