@@ -82,8 +82,7 @@ public class Manager extends HttpServlet
             }
             else
             {
-                out.println("login failed");
-                out.println("<a href=\"?action=logout\">return</a>");
+                showLoginFailed(resp);
             }
             return;
         }        
@@ -100,6 +99,12 @@ public class Manager extends HttpServlet
             save(req,resp);
         }            
     }
+     public void showLoginFailed(HttpServletResponse resp)throws IOException,ServletException
+     {
+        PrintWriter out = resp.getWriter();
+        out.println("login failed");
+        out.println("<a href=\"?action=logout\">return</a>");
+     }
     
     public void showLoginSuccess(HttpServletResponse resp)throws IOException,ServletException
     {
