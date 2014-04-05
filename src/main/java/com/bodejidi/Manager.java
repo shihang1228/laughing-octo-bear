@@ -86,18 +86,16 @@ public class Manager extends HttpServlet
             }
             return;
         }        
-        else if("update".equals(paraAction))
-        {             
-            update(req,resp);
-        }
-        else if("delete".equals(paraAction))
+        switch(paraAction)
         {
-            delete(req,resp);
+            case "update":
+                update(req, resp); break;
+            case "delete":
+                delete(req, resp); break;
+            default:
+                save(req, resp); break;
+                
         }
-        else
-        {
-            save(req,resp);
-        }            
     }
      public void showLoginFailed(HttpServletResponse resp)throws IOException,ServletException
      {
@@ -356,7 +354,7 @@ public class Manager extends HttpServlet
         out.println("<form action=\"member\" method=\"POST\">");
         out.println("<label>firstName:<input type=\"text\" name=\"first_name\"/></label></br>");
         out.println("<label>LastName :<input type=\"text\" name=\"last_name\"/></label></br>");
-        out.println("<input type=\"submit\" value=\"提交\"/>");
+        out.println("<input type=\"submit\" name=\"action\" value=\"提交\"/>");
         out.println("</form>");
         out.println("<a href=\"?action=list\">Member List</a>");
         out.println("</body>");
