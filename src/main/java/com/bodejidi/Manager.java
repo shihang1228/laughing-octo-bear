@@ -383,6 +383,7 @@ public class Manager extends HttpServlet
         out.println("<form action=\"member\" method=\"POST\">");
         out.println("<label>firstName:<input type=\"text\" name=\"first_name\"/></label></br>");
         out.println("<label>LastName :<input type=\"text\" name=\"last_name\"/></label></br>");
+        out.println("<input type=\"hidden\" name=\"action\" value=\"save\"/></label></br>");
         out.println("<input type=\"submit\" name=\"action\" value=\"提交\"/>");
         out.println("</form>");
         out.println("<a href=\"?action=list\">Member List</a>");
