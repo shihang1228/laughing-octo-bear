@@ -45,7 +45,7 @@ public class Manager extends HttpServlet
                      
             if(memberId == null)
             {
-                login(req,resp);
+                showLoginPage(req,resp);
                 return;
             }
             if(action==null || "".equals(action))
@@ -257,7 +257,7 @@ public class Manager extends HttpServlet
         return DriverManager.getConnection(jdbcUrl);
     }
         
-    public void login(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
+    public void showLoginPage(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
         PrintWriter out = resp.getWriter();
         out.println("<html><head><title>登录</title></head><body><form action=\"member\" method=\"POST\">");
