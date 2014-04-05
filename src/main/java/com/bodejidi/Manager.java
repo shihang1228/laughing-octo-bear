@@ -59,7 +59,9 @@ public class Manager extends HttpServlet
             case "show":
                 show(req,resp); break;
             case "list":
-                list(req,resp);
+                list(req,resp); break;
+            default:
+                resp.sendError(HttpServletResponse.SC_FORBIDDEN,"connot find!");
         }
     }
     
