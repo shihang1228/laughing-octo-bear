@@ -74,18 +74,7 @@ public class Manager extends HttpServlet
 
         if("login".equals(paraAction))
         {
-            String userName = req.getParameter("user_name");
-            String password = req.getParameter("password");
-            if(userName.equals("bai")&&password.equals("shi"))
-            {
-                HttpSession session = req.getSession();
-                session.setAttribute("memberId", 0L);
-                showLoginSuccess(resp);                 
-            }
-            else
-            {
-                showLoginFailed(resp);
-            }
+            login(req,resp);
             return;
         }        
         switch(paraAction)
@@ -97,6 +86,22 @@ public class Manager extends HttpServlet
             default:
                 save(req, resp); break;
                 
+        }
+    }
+    public void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        String userName = req.getParameter("user_name");
+        String password = req.getParameter("password");
+      
+        if(userName.equals("bai")&&password.equals("shi"))
+        {
+            HttpSession session = req.getSession();
+            session.setAttribute("memberId", 0L);
+            showLoginSuccess(resp);                 
+        }
+        else
+        {
+            showLoginFailed(resp);
         }
     }
     public void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
