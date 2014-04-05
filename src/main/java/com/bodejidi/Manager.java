@@ -36,31 +36,31 @@ public class Manager extends HttpServlet
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {         
-            resp.setContentType(contentType);           
-            PrintWriter out = resp.getWriter();
-            String action = req.getParameter("action");    
+        resp.setContentType(contentType);           
+        PrintWriter out = resp.getWriter();
+        String action = req.getParameter("action");    
             
-            if(isNotLogin(req))
-            {
-                showLoginPage(req,resp);
-                return;
-            }
-            if(action==null || "".equals(action))
-            {
-                list(req,resp);
-                return;
-            }
-            switch(action.toLowerCase())
-            {
-                case "logout":
-                    logout(req,resp);break;
-                case "create":
-                    create(req, resp); break;
-                case "show":
-                    show(req,resp); break;
-                default :
-                    list(req,resp); 
-            }
+        if(isNotLogin(req))
+        {
+            showLoginPage(req,resp);
+            return;
+        }
+        if(action==null || "".equals(action))
+        {
+            list(req,resp);
+            return;
+        }
+        switch(action.toLowerCase())
+        {
+            case "logout":
+                logout(req,resp);break;
+            case "create":
+                create(req, resp); break;
+            case "show":
+                show(req,resp); break;
+            default :
+                list(req,resp); 
+        }
     }
     
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
@@ -68,12 +68,19 @@ public class Manager extends HttpServlet
         resp.setContentType(contentType);
         String paraAction = req.getParameter("action");           
         PrintWriter out = resp.getWriter();
-
+        
+       
         if("login".equals(paraAction))
         {
             login(req,resp);
             return;
         }        
+         if(isNotLogin(req))
+        {
+            showLoginPage(req,resp);
+            return;
+        }
+        
         switch(paraAction)
         {
             case "update":
