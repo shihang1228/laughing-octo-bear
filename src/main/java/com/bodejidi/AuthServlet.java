@@ -46,8 +46,12 @@ public class AuthServlet extends HttpServlet
     public void showLoginFailed(HttpServletRequest req, HttpServletResponse resp)throws IOException,ServletException
     {
         PrintWriter out = resp.getWriter();
-        out.println("login failed");
-        out.println("<a href=\"" + req.getRequestURI() + "\">return</a>");
+        
+        out.println("login failed!!!");
+        out.println("<htm l><head><meta http-equiv=\"refresh\" content=\"5;");        
+        out.println("URL="+req.getRequestURI()+"\"></head><body>");
+        out.println("</br>please wait for 5 seconds, if not redirect ,please click ");
+        out.println("<a href=\"" + req.getRequestURI() + "\">here</a></body></html>");
         
     }
     
