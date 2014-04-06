@@ -39,15 +39,15 @@ public class AuthServlet extends HttpServlet
         }
         else
         {
-            showLoginFailed(resp);
+            showLoginFailed(req,resp);
         }
     }
     
-    public void showLoginFailed(HttpServletResponse resp)throws IOException,ServletException
+    public void showLoginFailed(HttpServletRequest req, HttpServletResponse resp)throws IOException,ServletException
     {
         PrintWriter out = resp.getWriter();
         out.println("login failed");
-        out.println("<a href=\"?action=logout\">return</a>");
+        out.println("<a href=\"" + req.getRequestURI() + "\">return</a>");
         
     }
     
