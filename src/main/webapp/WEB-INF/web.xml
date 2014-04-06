@@ -26,7 +26,7 @@
     </servlet>
     <servlet-mapping>
     <servlet-name>authLogin</servlet-name>
-    <url-pattern>/auth</url-pattern>
+    <url-pattern>/auth/login</url-pattern>
     </servlet-mapping>
     
     <filter>
