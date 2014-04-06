@@ -35,7 +35,7 @@ public class AuthServlet extends HttpServlet
         {
             HttpSession session = req.getSession();
             session.setAttribute("memberId", 0L);
-            showLoginSuccess(resp);                 
+            showLoginSuccess(req,resp);                 
         }
         else
         {
@@ -51,12 +51,13 @@ public class AuthServlet extends HttpServlet
         
     }
     
-    public void showLoginSuccess(HttpServletResponse resp)throws IOException,ServletException
+    public void showLoginSuccess(HttpServletRequest req,HttpServletResponse resp)throws IOException,ServletException
     {
         Integer timeout = 5;
         PrintWriter out = resp.getWriter();              
         out.println("<html><head>");
-        out.println("<meta http-equiv=\"refresh\" content=\"" + timeout + ";url=?action=list\"></head><body>");
+        out.println("<meta http-equiv=\"refresh\" content=\"" + timeout + ";url=" 
+                    + req.getContextPath()+"/member?action=list\"></head><body>");
         out.println("login success!</br>");
         out.println("please wait for " + timeout + "seconds,if not redirct,please click");
         out.println("<a href=\"?action=list\">here</a></br>");
