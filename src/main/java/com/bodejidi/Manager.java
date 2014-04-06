@@ -36,18 +36,18 @@ public class Manager extends HttpServlet
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {                
         PrintWriter out = resp.getWriter();
-        String action = req.getParameter("action");    
-            
+        String action = req.getParameter("action");   
+
         if(isNotLogin(req))
         {
-            resp.sendRedirect(req.getContextPath() + "/auth");
+            resp.sendRedirect(req.getContextPath() + "/auth/login");
             return;
         }
         if(action==null || "".equals(action))
         {
             action = "list";
-           
-        }
+        }        
+        
         switch(action.toLowerCase())
         {
             case "logout":
@@ -67,19 +67,7 @@ public class Manager extends HttpServlet
     {
         String paraAction = req.getParameter("action");           
         PrintWriter out = resp.getWriter();
-        
        
-        if("login".equals(paraAction))
-        {
-            login(req,resp);
-            return;
-        }        
-         if(isNotLogin(req))
-        {
-            resp.sendRedirect(req.getContextPath() + "/auth");
-            return;
-        }
-        
         switch(paraAction)
         {
             case "update":
@@ -92,55 +80,14 @@ public class Manager extends HttpServlet
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN,"connot find!");
         }
     }
-    public void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
-    {
-        String userName = req.getParameter("user_name");
-        String password = req.getParameter("password");
-      
-        if(userName.equals("bai")&&password.equals("shi"))
-        {
-            HttpSession session = req.getSession();
-            session.setAttribute("memberId", 0L);
-            showLoginSuccess(resp);                 
-        }
-        else
-        {
-            showLoginFailed(resp);
-        }
-    }
+
     public void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         HttpSession session = req.getSession();
         session.removeAttribute("memberId");
         resp.sendRedirect("member?action=login");
     }
-    public boolean isNotLogin(HttpServletRequest req) throws ServletException
-    { 
-        HttpSession session = req.getSession();
-        Long memberId = (Long)session.getAttribute("memberId");
-        return null == memberId;
-    }
-    public void showLoginFailed(HttpServletResponse resp)throws IOException,ServletException
-    {
-        PrintWriter out = resp.getWriter();
-        out.println("login failed");
-        out.println("<a href=\"?action=logout\">return</a>");
-        
-     }
-    
-    public void showLoginSuccess(HttpServletResponse resp)throws IOException,ServletException
-    {
-        Integer timeout = 5;
-        PrintWriter out = resp.getWriter();              
-        out.println("<html><head>");
-        out.println("<meta http-equiv=\"refresh\" content=\"" + timeout + ";url=?action=list\"></head><body>");
-        out.println("login success!</br>");
-        out.println("please wait for " + timeout + "seconds,if not redirct,please click");
-        out.println("<a href=\"?action=list\">here</a></br>");
-        out.println("<a href=\"?action=logout\">logout</a>");   
-        out.println("</body></html>");
-    }
-   
+
     public void debug(String str)
     {
         System.out.println("[DEBUG] " + new Date() + " " + str);
@@ -378,5 +325,11 @@ public class Manager extends HttpServlet
         out.println("</body>");
         out.println("</html>");
 
+    }
+    public boolean isNotLogin(HttpServletRequest req) throws ServletException
+    { 
+        HttpSession session = req.getSession();
+        Long memberId = (Long)session.getAttribute("memberId");
+        return null == memberId;
     }
 }
