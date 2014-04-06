@@ -21,10 +21,53 @@ public class AuthServlet extends HttpServlet
             resp.sendRedirect(req.getContextPath());
         }
     }
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException
+    {
+        login(req,resp);
+    }
+    
+    public void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        String userName = req.getParameter("user_name");
+        String password = req.getParameter("password");
+      
+        if(userName.equals("bai")&&password.equals("shi"))
+        {
+            HttpSession session = req.getSession();
+            session.setAttribute("memberId", 0L);
+            showLoginSuccess(resp);                 
+        }
+        else
+        {
+            showLoginFailed(resp);
+        }
+    }
+    
+    public void showLoginFailed(HttpServletResponse resp)throws IOException,ServletException
+    {
+        PrintWriter out = resp.getWriter();
+        out.println("login failed");
+        out.println("<a href=\"?action=logout\">return</a>");
+        
+    }
+    
+    public void showLoginSuccess(HttpServletResponse resp)throws IOException,ServletException
+    {
+        Integer timeout = 5;
+        PrintWriter out = resp.getWriter();              
+        out.println("<html><head>");
+        out.println("<meta http-equiv=\"refresh\" content=\"" + timeout + ";url=?action=list\"></head><body>");
+        out.println("login success!</br>");
+        out.println("please wait for " + timeout + "seconds,if not redirct,please click");
+        out.println("<a href=\"?action=list\">here</a></br>");
+        out.println("<a href=\"?action=logout\">logout</a>");   
+        out.println("</body></html>");
+    }
+    
     public void showLoginPage(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
         PrintWriter out = resp.getWriter();
-        out.println("<html><head><title>登录</title></head><body><form action=\"../member\" method=\"POST\">");
+        out.println("<html><head><title>登录</title></head><body><form action=\"\" method=\"POST\">");
         out.println("<label>UserName:<input type=\"text\" name=\"user_name\"></label>");
         out.println("<label>Password:<input type=\"password\" name=\"password\"></label>");
         out.println("<input type=\"submit\" name=\"action\" value=\"login\">");
