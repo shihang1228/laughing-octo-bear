@@ -21,7 +21,7 @@ public class Manager extends HttpServlet
 {
     static final String jdbcUrl = "jdbc:mysql://localhost/test?" + "user=root" + "&password=";
     static final String jdbcDriver = "com.mysql.jdbc.Driver";
-    static final String contentType = "text/html; charset=UTF-8";
+    static final String contentType = "text/html";
     static final String FORM_FIRST_NAME = "first_name"; 
     static final String FORM_LAST_NAME = "last_name";
     static final String FORM_ID = "id";
