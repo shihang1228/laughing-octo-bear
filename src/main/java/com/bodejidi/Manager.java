@@ -21,7 +21,6 @@ public class Manager extends HttpServlet
 {
     static final String jdbcUrl = "jdbc:mysql://localhost/test?" + "user=root" + "&password=";
     static final String jdbcDriver = "com.mysql.jdbc.Driver";
-    static final String contentType = "text/html";
     static final String FORM_FIRST_NAME = "first_name"; 
     static final String FORM_LAST_NAME = "last_name";
     static final String FORM_ID = "id";
@@ -35,8 +34,7 @@ public class Manager extends HttpServlet
 
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
-    {         
-        resp.setContentType(contentType);           
+    {                
         PrintWriter out = resp.getWriter();
         String action = req.getParameter("action");    
             
@@ -67,7 +65,6 @@ public class Manager extends HttpServlet
     
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
     {
-        resp.setContentType(contentType);
         String paraAction = req.getParameter("action");           
         PrintWriter out = resp.getWriter();
         
@@ -150,8 +147,6 @@ public class Manager extends HttpServlet
     }
     public void list(HttpServletRequest req, HttpServletResponse resp)throws IOException,ServletException
     {  
-        resp.setContentType(contentType);
-        
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
