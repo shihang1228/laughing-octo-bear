@@ -18,7 +18,7 @@ public class AuthServlet extends HttpServlet
         }
         else
         {
-            resp.sendRedirect("/jdbc");
+            resp.sendRedirect(req.getContextPath());
         }
     }
     public void showLoginPage(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
