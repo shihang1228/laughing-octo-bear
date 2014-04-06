@@ -19,6 +19,16 @@
         <servlet-name>member</servlet-name>
         <url-pattern>/member</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+    <servlet-name>authLogin</servlet-name>
+    <servlet-class>com.bodejidi.AuthServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    <servlet-name>authLogin</servlet-name>
+    <url-pattern>/auth</url-pattern>
+    </servlet-mapping>
+    
     <filter>
         <filter-name>UTF8Encoding</filter-name>
         <filter-class>com.bodejidi.UTF8EncodingFilter</filter-class>
@@ -27,6 +37,7 @@
         <filter-name>UTF8Encoding</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    
     <filter>
         <filter-name>ContentType</filter-name>
         <filter-class>com.bodejidi.ContentTypeFilter</filter-class>
