@@ -48,10 +48,10 @@ public class AuthServlet extends HttpServlet
         PrintWriter out = resp.getWriter();
         
         out.println("login failed!!!");
-        out.println("<htm l><head><meta http-equiv=\"refresh\" content=\"5;");        
-        out.println("URL="+req.getRequestURI()+"\"></head><body>");
+        out.println("<head><meta http-equiv=\"refresh\" content=\"5;");        
+        out.println("URL="+req.getRequestURI()+"\"></head>");
         out.println("</br>please wait for 5 seconds, if not redirect ,please click ");
-        out.println("<a href=\"" + req.getRequestURI() + "\">here</a></body></html>");
+        out.println("<a href=\"" + req.getRequestURI() + "\">here</a>");
         
     }
     
