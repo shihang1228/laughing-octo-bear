@@ -40,7 +40,7 @@ public class Manager extends HttpServlet
             
         if(isNotLogin(req))
         {
-            showLoginPage(req,resp);
+            resp.sendRedirect(req.getContextPath() + "/auth");
             return;
         }
         if(action==null || "".equals(action))
@@ -76,7 +76,7 @@ public class Manager extends HttpServlet
         }        
          if(isNotLogin(req))
         {
-            showLoginPage(req,resp);
+            resp.sendRedirect(req.getContextPath() + "/auth");
             return;
         }
         
@@ -268,16 +268,6 @@ public class Manager extends HttpServlet
             //ignore
         }
         return DriverManager.getConnection(jdbcUrl);
-    }
-        
-    public void showLoginPage(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
-    {
-        PrintWriter out = resp.getWriter();
-        out.println("<html><head><title>登录</title></head><body><form action=\"member\" method=\"POST\">");
-        out.println("<label>UserName:<input type=\"text\" name=\"user_name\"></label>");
-        out.println("<label>Password:<input type=\"password\" name=\"password\"></label>");
-        out.println("<input type=\"submit\" name=\"action\" value=\"login\">");
-        out.println("</form></body></html>");
     }
     
     public void  save(HttpServletRequest req,HttpServletResponse resp) throws IOException ,ServletException 
