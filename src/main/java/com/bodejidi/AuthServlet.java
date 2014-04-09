@@ -68,14 +68,15 @@ public class AuthServlet extends HttpServlet
     
     public void showLoginSuccess(HttpServletRequest req,HttpServletResponse resp)throws IOException,ServletException
     {
+        String redirectTo = req.getContextPath()+"/member?action=list";
         Integer timeout = 5;
         PrintWriter out = resp.getWriter();              
         out.println("<html><head>");
         out.println("<meta http-equiv=\"refresh\" content=\"" + timeout + ";url=" 
-                    + req.getContextPath()+"/member?action=list\"></head><body>");
+                    + redirectTo + "\"></head><body>");
         out.println("login success!</br>");
         out.println("please wait for " + timeout + "seconds,if not redirct,please click");
-        out.println("<a href=\"?action=list\">here</a></br>");
+        out.println("<a href=\"" + redirectTo +"\">here</a></br>");
         out.println("<a href=\"?action=logout\">logout</a>");   
         out.println("</body></html>");
     }
