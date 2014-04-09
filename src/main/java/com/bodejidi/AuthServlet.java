@@ -77,7 +77,7 @@ public class AuthServlet extends HttpServlet
         out.println("login success!</br>");
         out.println("please wait for " + timeout + "seconds,if not redirct,please click");
         out.println("<a href=\"" + redirectTo +"\">here</a></br>");
-        out.println("<a href=\"?action=logout\">logout</a>");   
+        out.println("<a href=\""+req.getContextPath()+"/auth/logout\">logout</a>");   
         out.println("</body></html>");
     }
     
