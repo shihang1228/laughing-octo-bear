@@ -65,9 +65,16 @@ public class Manager extends HttpServlet
     
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
     {
+        
         String paraAction = req.getParameter("action");           
         PrintWriter out = resp.getWriter();
-       
+        
+        if(isNotLogin(req))
+        {
+            resp.sendRedirect(req.getContextPath() + "/auth/login");
+            return;
+        }
+    
         switch(paraAction)
         {
             case "update":
@@ -79,6 +86,7 @@ public class Manager extends HttpServlet
             default:
                 resp.sendError(HttpServletResponse.SC_FORBIDDEN,"connot find!");
         }
+        
     }
 
     public void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
