@@ -42,6 +42,12 @@ public class AuthServlet extends HttpServlet
             showLoginFailed(req,resp);
         }
     }
+    public void logout(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException
+    {
+        HttpSession session = req.getSession();
+        session.removeAttribute("memberId");
+        resp.sendRedirect("member?action=login");
+    }
     
     public void showLoginFailed(HttpServletRequest req, HttpServletResponse resp)throws IOException,ServletException
     {
