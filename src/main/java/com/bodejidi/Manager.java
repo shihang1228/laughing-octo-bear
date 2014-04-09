@@ -32,11 +32,6 @@ public class Manager extends HttpServlet
         PrintWriter out = resp.getWriter();
         String action = req.getParameter("action");   
 
-        if(isNotLogin(req))
-        {
-            resp.sendRedirect(req.getContextPath() + "/auth/login");
-            return;
-        }
         if(action==null || "".equals(action))
         {
             action = "list";
@@ -61,12 +56,6 @@ public class Manager extends HttpServlet
         String paraAction = req.getParameter("action");           
         PrintWriter out = resp.getWriter();
         
-        if(isNotLogin(req))
-        {
-            resp.sendRedirect(req.getContextPath() + "/auth/login");
-            return;
-        }
-    
         switch(paraAction)
         {
             case "update":
@@ -300,11 +289,5 @@ public class Manager extends HttpServlet
         out.println("</body>");
         out.println("</html>");
 
-    }
-    public boolean isNotLogin(HttpServletRequest req) throws ServletException
-    { 
-        HttpSession session = req.getSession();
-        Long memberId = (Long)session.getAttribute("memberId");
-        return null == memberId;
     }
 }
