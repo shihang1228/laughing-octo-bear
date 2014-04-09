@@ -7,20 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.ResultSet;
-import java.sql.DriverManager;
-import java.lang.AutoCloseable;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Manager extends HttpServlet
 {
-    static final String jdbcUrl = "jdbc:mysql://localhost/test?" + "user=root" + "&password=";
-    static final String jdbcDriver = "com.mysql.jdbc.Driver";
     static final String FORM_FIRST_NAME = "first_name"; 
     static final String FORM_LAST_NAME = "last_name";
     static final String FORM_ID = "id";
@@ -50,8 +44,6 @@ public class Manager extends HttpServlet
         
         switch(action.toLowerCase())
         {
-            case "logout":
-                logout(req,resp);break;
             case "create":
                 create(req, resp); break;
             case "show":
@@ -88,24 +80,14 @@ public class Manager extends HttpServlet
         }
         
     }
-
-    public void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
-    {
-        HttpSession session = req.getSession();
-        session.removeAttribute("memberId");
-        resp.sendRedirect("member?action=login");
-    }
-
+    
     public void debug(String str)
     {
         System.out.println("[DEBUG] " + new Date() + " " + str);
     }
     public void list(HttpServletRequest req, HttpServletResponse resp)throws IOException,ServletException
     {  
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        
+  
         PrintWriter out = resp.getWriter();       
         try
         {
@@ -177,9 +159,7 @@ public class Manager extends HttpServlet
         {
             ds.close();
         }
-        return member;
-
-        
+        return member;       
     } 
     public List<Member> findAllMember() throws SQLException
     {
@@ -212,19 +192,7 @@ public class Manager extends HttpServlet
     {
         return "welcome,admin!<a href=\""+req.getContextPath()+"/auth/logout\">logout</a>";
     }
-     protected Connection createConnection() throws SQLException
-    {
-        try
-        {        
-            Class.forName(jdbcDriver).newInstance();    
-        }
-        catch(Exception ex)
-        {
-            //ignore
-        }
-        return DriverManager.getConnection(jdbcUrl);
-    }
-    
+     
     public void  save(HttpServletRequest req,HttpServletResponse resp) throws IOException ,ServletException 
     {
         PrintWriter out = resp.getWriter();            
@@ -233,7 +201,6 @@ public class Manager extends HttpServlet
         DataBaseService ds = null;
         try
         {  
-
             ds = DataBaseService.newInstance();
             String sql = "INSERT INTO " + SHIHANG_TABLE + " ( " + SHIHANG_FIRST_NAME + ", " + SHIHANG_LAST_NAME + " ," +SHIHANG_DATE_CREATED + "," + SHIHANG_LAST_UPDATED + ") VALUES('"
                             + firstName + "','" + lastName +"',now(),now())";
