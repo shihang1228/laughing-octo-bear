@@ -110,7 +110,7 @@ public class Manager extends HttpServlet
         try
         {
      
-            out.println("<html><head><title>会员管理</title></head><body>" + showLoginInfo() + "<h1>会员列表</h1><table border=\"2\">");
+            out.println("<html><head><title>会员管理</title></head><body>" + showLoginInfo(req) + "<h1>会员列表</h1><table border=\"2\">");
             out.println("<tr><th>ID</th><th>Name</th></tr>");
            
             for(Member member: findAllMember())
@@ -139,7 +139,7 @@ public class Manager extends HttpServlet
             String pid = req.getParameter(FORM_ID);
             Member member = getMemberById(pid);
             
-            out.println("<html><head><title>指定会员</title></head><body>" + showLoginInfo() + "<h1>指定会员</h1><form action=\"member\" method=\"POST\">");
+            out.println("<html><head><title>指定会员</title></head><body>" + showLoginInfo(req) + "<h1>指定会员</h1><form action=\"member\" method=\"POST\">");
             out.println("<table border=\"2\"><tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>");
             out.println("<tr><td>" + member.getId() + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + member.getFirstName() + "\">" 
                        + "</td><td><input type=\"text\" name=\"last_name\" value=\"" + member.getLastName() + "\"></td></tr></table></br>");
@@ -208,9 +208,9 @@ public class Manager extends HttpServlet
         }
         return memberList;
     }
-    public String showLoginInfo()
+    public String showLoginInfo(HttpServletRequest req)
     {
-        return "welcome,admin!<a href=\"?action=logout\">logout</a>";
+        return "welcome,admin!<a href=\""+req.getContextPath()+"/auth/logout\">logout</a>";
     }
      protected Connection createConnection() throws SQLException
     {
