@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -272,22 +273,9 @@ public class Manager extends HttpServlet
     public void create(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
         PrintWriter out = resp.getWriter();
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>新增会员</title>");
-        out.println("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>");	
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>新增会员</h1>");
-        out.println("<form action=\"member\" method=\"POST\">");
-        out.println("<label>firstName:<input type=\"text\" name=\"first_name\"/></label></br>");
-        out.println("<label>LastName :<input type=\"text\" name=\"last_name\"/></label></br>");
-        out.println("<input type=\"hidden\" name=\"action\" value=\"save\"/></label></br>");
-        out.println("<input type=\"submit\" name=\"action\" value=\"提交\"/>");
-        out.println("</form>");
-        out.println("<a href=\"?action=list\">Member List</a>");
-        out.println("</body>");
-        out.println("</html>");
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/member/create.jsp");
+        dispatcher.forward(req,resp);
 
     }
 }
