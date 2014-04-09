@@ -21,7 +21,7 @@ public class AuthorizationFilter implements Filter
     throws java.io.IOException, ServletException
     {
         HttpServletRequest req = (HttpServletRequest)request;
-        if(!req.getRequestURI().startsWith(req.getContextPath()+"/auth/") && isNotLogin(req))
+        if(isNotAuthUrl(req) && isNotLogin(req))
         {
             ((HttpServletResponse)resp).sendRedirect(req.getContextPath()+"/auth/login");
             return;
@@ -37,5 +37,9 @@ public class AuthorizationFilter implements Filter
         HttpSession session = req.getSession();
         Long memberId = (Long)session.getAttribute("memberId");
         return memberId == null;
+    }
+    public boolean isNotAuthUrl(HttpServletRequest req)
+    {
+        return !req.getRequestURI().startsWith(req.getContextPath() + "/auth");
     }
 }
