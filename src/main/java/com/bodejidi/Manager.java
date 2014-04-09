@@ -110,15 +110,8 @@ public class Manager extends HttpServlet
         {
             String pid = req.getParameter(FORM_ID);
             Member member = getMemberById(pid);
-            
-            out.println("<html><head><title>指定会员</title></head><body>" + showLoginInfo(req) + "<h1>指定会员</h1><form action=\"member\" method=\"POST\">");
-            out.println("<table border=\"2\"><tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>");
-            out.println("<tr><td>" + member.getId() + "</td><td><input type=\"text\" name=\"first_name\" value=\"" + member.getFirstName() + "\">" 
-                       + "</td><td><input type=\"text\" name=\"last_name\" value=\"" + member.getLastName() + "\"></td></tr></table></br>");
-            out.println("<input type=\"submit\" name=\"action\" value=\"update\">");
-            out.println("<input type=\"submit\" name=\"action\" value=\"delete\">");
-            out.println("<input type=\"hidden\" name=\"id\" value=\"" + member.getId() + "\">");
-            out.println("</form><a href=\"?action=create\">Add Member</a></body></html>");
+            req.setAttribute("member",member);
+            getServletContext().getRequestDispatcher("/WEB-INF/member/show.jsp").forward(req,resp);           
         }
         catch(SQLException ex)
         {
