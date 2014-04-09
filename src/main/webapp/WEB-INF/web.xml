@@ -29,6 +29,15 @@
     <url-pattern>/auth/login</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+    <servlet-name>authlogout</servlet-name>
+    <servlet-class>com.bodejidi.AuthServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    <servlet-name>authlogout</servlet-name>
+    <url-pattern>/auth/logout</url-pattern>
+    </servlet-mapping>
+    
     <filter>
         <filter-name>UTF8Encoding</filter-name>
         <filter-class>com.bodejidi.UTF8EncodingFilter</filter-class>

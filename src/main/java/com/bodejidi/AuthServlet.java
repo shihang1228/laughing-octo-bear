@@ -12,6 +12,11 @@ public class AuthServlet extends HttpServlet
 {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException
     {
+        if(req.getRequestURI().endsWith("/logout"))
+        {
+            logout(req,resp);
+            return;
+        }
         if(isNotLogin(req))
         {
             showLoginPage(req,resp);
@@ -46,7 +51,7 @@ public class AuthServlet extends HttpServlet
     {
         HttpSession session = req.getSession();
         session.removeAttribute("memberId");
-        resp.sendRedirect("member?action=login");
+        resp.sendRedirect(req.getContextPath());
     }
     
     public void showLoginFailed(HttpServletRequest req, HttpServletResponse resp)throws IOException,ServletException
