@@ -244,29 +244,25 @@ public class Manager extends HttpServlet
         member.setFirstName(req.getParameter(FORM_FIRST_NAME));
         member.setLastName(req.getParameter(FORM_LAST_NAME));
         member.setId(Long.valueOf(req.getParameter(FORM_ID)));
-        DataBaseService ds = null;
         
-        try
-        {
-            String firstName = member.getFirstName();
-            String lastName = member.getLastName();
-            Long paraId = member.getId();
-            PrintWriter out = resp.getWriter();
-            ds = DataBaseService.newInstance();
-            String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "='" + firstName + "' , " + SHIHANG_LAST_NAME + "='" + lastName + "'where " + SHIHANG_ID + "=" + paraId;
-            debug("SQL: " + sql);
-            ds.execute(sql);
-            out.println("Update " + member + " Success!");
-            out.println("<a href=\"?action=list\">Member List</a>");
-            req.setAttribute("flash_massage","Update " + member + " Success!");
-            forward("result" , req , resp);
-            
-        }
-        finally
-        {
-            ds.close();
-        }
+        update(member);
+        req.setAttribute("flash_massage","Update " + member + " Success!");
+        forward("result" , req , resp);            
     }
+    public Member update(Member member) throws SQLException
+    {
+        String firstName = member.getFirstName();
+        String lastName = member.getLastName();
+        Long paraId = member.getId();
+        DataBaseService ds = DataBaseService.newInstance();
+        String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "='" 
+                    + firstName + "' , " + SHIHANG_LAST_NAME + "='" + lastName + "'where " + SHIHANG_ID + "=" + paraId;
+        debug("SQL: " + sql);
+        ds.execute(sql);       
+        ds.close();
+        return member;
+        }
+    
     public void create(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {
         PrintWriter out = resp.getWriter();
