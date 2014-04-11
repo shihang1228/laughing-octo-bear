@@ -6,6 +6,11 @@ public class Member
     private String firstName;
     private String lastName;
     
+    public String toString()
+    {
+        return firstName + " " + lastName;
+    }
+    
     public Long getId()
     {
         return id;
