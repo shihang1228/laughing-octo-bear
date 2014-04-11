@@ -190,19 +190,12 @@ public class Manager extends HttpServlet
                 throws IOException ,ServletException ,SQLException         
     {
         String paraId = req.getParameter(FORM_ID);      
-        deleteById(Long.valueOf(paraId));
+        MemberService memberService = new MemberService();
+        memberService.deleteById(Long.valueOf(paraId));
         req.setAttribute("flash_massage","delete " + paraId + " Success!");
         forward("result", req,resp); 
     } 
     
-    public void deleteById(Long paraId) throws SQLException
-    {
-        DataBaseService ds = DataBaseService.newInstance();
-        String sql = "delete from " + SHIHANG_TABLE + " where " + SHIHANG_ID  + "=" + paraId;
-        debug("SQL: " + sql);
-        ds.execute(sql);
-        ds.close();
-    }
     public void update(HttpServletRequest req,HttpServletResponse resp)
                  throws IOException ,ServletException ,SQLException
     {       

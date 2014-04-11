@@ -64,6 +64,15 @@ public class MemberService
         return memberList;
     }
     
+     public void deleteById(Long paraId) throws SQLException
+    {
+        DataBaseService ds = DataBaseService.newInstance();
+        String sql = "delete from " + SHIHANG_TABLE + " where " + SHIHANG_ID  + "=" + paraId;
+        debug("SQL: " + sql);
+        ds.execute(sql);
+        ds.close();
+    }
+    
     public void debug(String str)
     {
         String className = Manager.class.getName();
