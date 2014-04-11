@@ -215,8 +215,8 @@ public class Manager extends HttpServlet
             String sql = "delete from " + SHIHANG_TABLE + " where " + SHIHANG_ID  + "=" + paraId;
             debug("SQL: " + sql);
             ds.execute(sql);
-            out.println("delete " + firstName + " " + lastName + " Success!");
-            out.println("<a href=\"?action=list\">Member List</a>");
+            req.setAttribute("flash_massage","delete " + firstName + " " + lastName + " Success!");
+            forward("result", req,resp);
         }
         finally
         {
