@@ -1,4 +1,3 @@
-<%@ page pageEncoding="UTF-8"%>
 <html>
     <head>
         <title>新增会员</title>
