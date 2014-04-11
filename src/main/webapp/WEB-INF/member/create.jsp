@@ -4,6 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>	
     </head>
     <body>
+    <%@ include file="../common/header.jsp"%>
         <h1>新增会员</h1>
         <form action="member" method="POST">
             <label>firstName:<input type="text" name="first_name"/></label></br>
