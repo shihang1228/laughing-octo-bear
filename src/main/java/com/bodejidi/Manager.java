@@ -185,11 +185,16 @@ public class Manager extends HttpServlet
         member.setFirstName(req.getParameter(FORM_FIRST_NAME));
         member.setLastName(req.getParameter(FORM_LAST_NAME));
         
-        String firstName = member.getFirstName();
-        String lastName = member.getLastName();
+       
         DataBaseService ds = null;
         try
-        {  
+        {   
+            String firstName = member.getFirstName();
+            String lastName = member.getLastName();
+            if(firstName == null || firstName.length() == 0 || lastName == null || lastName.length() == 0)
+            {
+                throw new Exception("Member validator error!!!");
+            }
             ds = DataBaseService.newInstance();
             String sql = "INSERT INTO " + SHIHANG_TABLE + " ( " + SHIHANG_FIRST_NAME + ", " + SHIHANG_LAST_NAME + " ," 
                         + SHIHANG_DATE_CREATED + "," + SHIHANG_LAST_UPDATED + ") VALUES('"
@@ -197,12 +202,17 @@ public class Manager extends HttpServlet
             debug("SQL: " + sql);
             ds.execute(sql);
             req.setAttribute("flash_massage","Add " + firstName + " " + lastName + " Success!");
-            forward("result" , req, resp);
+            
         }
-        finally
+        catch(Exception e)
+        {
+            req.setAttribute("flash_errorMessage", "Error: first name or last name cannot be empty!");
+        }        
+        /*finally
         {
             ds.close();
-        }
+        }*/
+        forward("result" , req, resp);
     }
     public void delete(HttpServletRequest req,HttpServletResponse resp) 
                 throws IOException ,ServletException ,SQLException         
