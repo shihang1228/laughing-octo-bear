@@ -187,12 +187,13 @@ public class Manager extends HttpServlet
         try
         {  
             ds = DataBaseService.newInstance();
-            String sql = "INSERT INTO " + SHIHANG_TABLE + " ( " + SHIHANG_FIRST_NAME + ", " + SHIHANG_LAST_NAME + " ," +SHIHANG_DATE_CREATED + "," + SHIHANG_LAST_UPDATED + ") VALUES('"
-                            + firstName + "','" + lastName +"',now(),now())";
+            String sql = "INSERT INTO " + SHIHANG_TABLE + " ( " + SHIHANG_FIRST_NAME + ", " + SHIHANG_LAST_NAME + " ," 
+                        + SHIHANG_DATE_CREATED + "," + SHIHANG_LAST_UPDATED + ") VALUES('"
+                        + firstName + "','" + lastName +"',now(),now())";
             debug("SQL: " + sql);
             ds.execute(sql);
-            out.println("Add " + firstName + " " + lastName + " Success!");
-            out.println("<a href=\"?action=list\">Member List</a>");
+            req.setAttribute("flash_massage","Add " + firstName + " " + lastName + " Success!");
+            forward("result" , req, resp);
         }
         finally
         {
