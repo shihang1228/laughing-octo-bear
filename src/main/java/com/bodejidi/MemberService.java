@@ -64,6 +64,20 @@ public class MemberService
         return memberList;
     }
     
+     public Member update(Member member) throws SQLException
+    {
+        String firstName = member.getFirstName();
+        String lastName = member.getLastName();
+        Long paraId = member.getId();
+        DataBaseService ds = DataBaseService.newInstance();
+        String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "='" 
+                    + firstName + "' , " + SHIHANG_LAST_NAME + "='" + lastName + "'where " + SHIHANG_ID + "=" + paraId;
+        debug("SQL: " + sql);
+        ds.execute(sql);       
+        ds.close();
+        return member;
+    }
+    
      public void deleteById(Long paraId) throws SQLException
     {
         DataBaseService ds = DataBaseService.newInstance();
