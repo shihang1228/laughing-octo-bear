@@ -111,7 +111,8 @@ public class Manager extends HttpServlet
         try
         {
             Long pid = Long.valueOf(req.getParameter(FORM_ID));
-            Member member = getMemberById(pid);
+            MemberService memberService = new MemberService();
+            Member member = memberService.getMemberById(pid);
             req.setAttribute("member",member);
             forward("show", req, resp);          
         }
@@ -124,29 +125,7 @@ public class Manager extends HttpServlet
         }
     }
 
-    public Member getMemberById(Long pid) throws SQLException
-    {
-        Member member = new Member();
-        
-        String sql = "SELECT * FROM " + SHIHANG_TABLE;
-        sql = sql + " " + " WHERE " + SHIHANG_ID + " = " + pid;
-        debug(sql);
-        DataBaseService ds = null;
-        try
-        {
-            ds = DataBaseService.newInstance();
-            ResultSet rs = ds.executeQuery(sql);   
-            rs.next();
-            member.setId(rs.getLong(SHIHANG_ID));
-            member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
-            member.setLastName(rs.getString(SHIHANG_LAST_NAME));             
-        }
-        finally
-        {
-            ds.close();
-        }
-        return member;       
-    } 
+   
    
     public String showLoginInfo(HttpServletRequest req)
     {

@@ -64,6 +64,30 @@ public class MemberService
         return memberList;
     }
     
+    public Member getMemberById(Long pid) throws SQLException
+    {
+        Member member = new Member();
+        
+        String sql = "SELECT * FROM " + SHIHANG_TABLE;
+        sql = sql + " " + " WHERE " + SHIHANG_ID + " = " + pid;
+        debug(sql);
+        DataBaseService ds = null;
+        try
+        {
+            ds = DataBaseService.newInstance();
+            ResultSet rs = ds.executeQuery(sql);   
+            rs.next();
+            member.setId(rs.getLong(SHIHANG_ID));
+            member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
+            member.setLastName(rs.getString(SHIHANG_LAST_NAME));             
+        }
+        finally
+        {
+            ds.close();
+        }
+        return member;       
+    } 
+    
      public Member update(Member member) throws SQLException
     {
         String firstName = member.getFirstName();
