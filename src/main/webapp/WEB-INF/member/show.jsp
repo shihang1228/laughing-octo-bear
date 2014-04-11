@@ -5,7 +5,7 @@
         <title>指定会员</title>
     </head>
 <body>
-    welcome,admin!<a href="/jdbc/auth/logout">logout</a>
+    <%@ include file="../common/header.jsp"%>
     <h1>第<%=member.getId()%>号会员</h1>
     <form action="member" method="POST">
         <table border="2">
