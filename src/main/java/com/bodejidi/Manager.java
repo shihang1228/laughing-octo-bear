@@ -111,7 +111,7 @@ public class Manager extends HttpServlet
             String pid = req.getParameter(FORM_ID);
             Member member = getMemberById(pid);
             req.setAttribute("member",member);
-            getServletContext().getRequestDispatcher("/WEB-INF/member/show.jsp").forward(req,resp);           
+            forward("show", req, resp);          
         }
         catch(SQLException ex)
         {
