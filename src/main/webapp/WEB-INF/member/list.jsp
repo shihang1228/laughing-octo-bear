@@ -8,7 +8,7 @@ List<Member> memberList = (List<Member>) request.getAttribute("memberList");
         <title>会员管理</title>
     </head>
     <body>
-        welcome,admin!<a href="/jdbc/auth/logout">logout</a>
+        welcome,admin!<a href="<%=request.getContextPath()%>/auth/logout">logout</a>
         <h1>会员列表</h1>
         <table border=\"2\">
             <tr>
