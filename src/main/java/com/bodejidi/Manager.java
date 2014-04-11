@@ -83,7 +83,8 @@ public class Manager extends HttpServlet
     
     public void debug(String str)
     {
-        System.out.println("[DEBUG] " + new Date() + " " + str);
+        String className = Manager.class.getName();
+        System.out.println("[DEBUG] " + new Date() + " " + className + " " + str);
     }
     public void list(HttpServletRequest req, HttpServletResponse resp)throws IOException,ServletException
     {  
