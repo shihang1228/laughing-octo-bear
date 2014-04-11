@@ -239,23 +239,28 @@ public class Manager extends HttpServlet
     }
     public void update(HttpServletRequest req,HttpServletResponse resp)
                  throws IOException ,ServletException ,SQLException
-    {
-        String firstName = req.getParameter(FORM_FIRST_NAME);
-        String lastName = req.getParameter(FORM_LAST_NAME);
-        String paraId = req.getParameter(FORM_ID);
-        PrintWriter out = resp.getWriter();
+    {       
+        Member member = new Member();
+        member.setFirstName(req.getParameter(FORM_FIRST_NAME));
+        member.setLastName(req.getParameter(FORM_LAST_NAME));
+        member.setId(Long.valueOf(req.getParameter(FORM_ID)));
         DataBaseService ds = null;
         
         try
         {
+            String firstName = member.getFirstName();
+            String lastName = member.getLastName();
+            Long paraId = member.getId();
+            PrintWriter out = resp.getWriter();
             ds = DataBaseService.newInstance();
             String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "='" + firstName + "' , " + SHIHANG_LAST_NAME + "='" + lastName + "'where " + SHIHANG_ID + "=" + paraId;
             debug("SQL: " + sql);
             ds.execute(sql);
-            out.println("Update " + firstName + " " + lastName + " Success!");
+            out.println("Update " + member + " Success!");
             out.println("<a href=\"?action=list\">Member List</a>");
-            req.setAttribute("flash_massage","Update " + firstName + " " + lastName + " Success!");
+            req.setAttribute("flash_massage","Update " + member + " Success!");
             forward("result" , req , resp);
+            
         }
         finally
         {
