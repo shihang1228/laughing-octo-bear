@@ -105,11 +105,11 @@ public class Manager extends HttpServlet
     }
     public void show(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
     {
-        
-        PrintWriter out = resp.getWriter();
+       
+        PrintWriter out = resp.getWriter(); 
         try
         {
-            String pid = req.getParameter(FORM_ID);
+            Long pid = Long.valueOf(req.getParameter(FORM_ID));
             Member member = getMemberById(pid);
             req.setAttribute("member",member);
             forward("show", req, resp);          
