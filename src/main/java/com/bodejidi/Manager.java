@@ -189,20 +189,8 @@ public class Manager extends HttpServlet
         DataBaseService ds = null;
         try
         {   
-            String firstName = member.getFirstName();
-            String lastName = member.getLastName();
-            if(firstName == null || firstName.length() == 0 || lastName == null || lastName.length() == 0)
-            {
-                throw new Exception("Member validator error!!!");
-            }
-            ds = DataBaseService.newInstance();
-            String sql = "INSERT INTO " + SHIHANG_TABLE + " ( " + SHIHANG_FIRST_NAME + ", " + SHIHANG_LAST_NAME + " ," 
-                        + SHIHANG_DATE_CREATED + "," + SHIHANG_LAST_UPDATED + ") VALUES('"
-                        + firstName + "','" + lastName +"',now(),now())";
-            debug("SQL: " + sql);
-            ds.execute(sql);
-            req.setAttribute("flash_massage","Add " + firstName + " " + lastName + " Success!");
-            
+            save(member);
+            req.setAttribute("flash_massage","Add " + member + " Success!");           
         }
         catch(Exception e)
         {
@@ -213,6 +201,22 @@ public class Manager extends HttpServlet
             ds.close();
         }*/
         forward("result" , req, resp);
+    }
+    public Member save(Member member) throws Exception
+    {
+        String firstName = member.getFirstName();
+        String lastName = member.getLastName();
+        if(firstName == null || firstName.length() == 0 || lastName == null || lastName.length() == 0)
+        {
+            throw new Exception("Member validator error!!!");
+        }
+        DataBaseService ds = DataBaseService.newInstance();
+        String sql = "INSERT INTO " + SHIHANG_TABLE + " ( " + SHIHANG_FIRST_NAME + ", " + SHIHANG_LAST_NAME + " ," 
+                    + SHIHANG_DATE_CREATED + "," + SHIHANG_LAST_UPDATED + ") VALUES('"
+                    + firstName + "','" + lastName +"',now(),now())";
+        debug("SQL: " + sql);
+        ds.execute(sql);
+        return member;
     }
     public void delete(HttpServletRequest req,HttpServletResponse resp) 
                 throws IOException ,ServletException ,SQLException         
