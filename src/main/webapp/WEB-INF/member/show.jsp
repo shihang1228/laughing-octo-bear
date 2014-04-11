@@ -1,5 +1,4 @@
 <%@page import="com.bodejidi.Member"%>
-<%@ page pageEncoding="UTF-8"%>
 <%Member member = (Member)request.getAttribute("member");%>
 <html>
     <head>
