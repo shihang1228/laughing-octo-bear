@@ -57,16 +57,26 @@ public class Manager extends HttpServlet
         String paraAction = req.getParameter("action");           
         PrintWriter out = resp.getWriter();
         
-        switch(paraAction)
+        try
         {
-            case "update":
-                update(req, resp); break;
-            case "delete":
-                delete(req, resp); break;
-            case "save":
-                save(req, resp); break;
-            default:
-                resp.sendError(HttpServletResponse.SC_FORBIDDEN,"connot find!");
+            switch(paraAction)
+            {
+                case "update":
+                    update(req, resp); break;
+                case "delete":
+                    delete(req, resp); break;
+                case "save":
+                    save(req, resp); break;
+                default:
+                    resp.sendError(HttpServletResponse.SC_FORBIDDEN,"connot find!");
+            }
+        }
+        catch(SQLException ex)
+        {
+            debug("SQLException: " + ex.getMessage());
+            debug("SQLState: " + ex.getSQLState());
+            debug("VendorError: " + ex.getErrorCode());
+            out.println("Error!");
         }
         
     }
@@ -167,7 +177,8 @@ public class Manager extends HttpServlet
         return "welcome,admin!<a href=\""+req.getContextPath()+"/auth/logout\">logout</a>";
     }
      
-    public void  save(HttpServletRequest req,HttpServletResponse resp) throws IOException ,ServletException 
+    public void  save(HttpServletRequest req,HttpServletResponse resp)
+                throws IOException ,ServletException ,SQLException
     {
         PrintWriter out = resp.getWriter();            
         String firstName = req.getParameter(FORM_FIRST_NAME);
@@ -183,19 +194,13 @@ public class Manager extends HttpServlet
             out.println("Add " + firstName + " " + lastName + " Success!");
             out.println("<a href=\"?action=list\">Member List</a>");
         }
-        catch (SQLException ex)
-        {
-            debug("SQLException: " + ex.getMessage());
-            debug("SQLState: " + ex.getSQLState());
-            debug("VendorError: " + ex.getErrorCode());
-            out.println("Error!");
-        }
         finally
         {
             ds.close();
         }
     }
-    public void delete(HttpServletRequest req,HttpServletResponse resp) throws IOException ,ServletException 
+    public void delete(HttpServletRequest req,HttpServletResponse resp) 
+                throws IOException ,ServletException ,SQLException         
     {
         String firstName = req.getParameter(FORM_FIRST_NAME);
         String lastName = req.getParameter(FORM_LAST_NAME);
@@ -212,20 +217,14 @@ public class Manager extends HttpServlet
             out.println("delete " + firstName + " " + lastName + " Success!");
             out.println("<a href=\"?action=list\">Member List</a>");
         }
-        catch(SQLException ex)
-        {
-            debug("SQLException: " + ex.getMessage());
-            debug("SQLState: " + ex.getSQLState());
-            debug("VendorError: " + ex.getErrorCode());
-            out.println("Error!");
-        }
         finally
         {
             ds.close();
         }
             
     } 
-    public void update(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
+    public void update(HttpServletRequest req,HttpServletResponse resp)
+                 throws IOException ,ServletException ,SQLException
     {
         String firstName = req.getParameter(FORM_FIRST_NAME);
         String lastName = req.getParameter(FORM_LAST_NAME);
@@ -241,13 +240,6 @@ public class Manager extends HttpServlet
             ds.execute(sql);
             out.println("Update " + firstName + " " + lastName + " Success!");
             out.println("<a href=\"?action=list\">Member List</a>");
-        }
-        catch(SQLException ex)
-        {
-            debug("SQLException: " + ex.getMessage());
-            debug("SQLState: " + ex.getSQLState());
-            debug("VendorError: " + ex.getErrorCode());
-            out.println("Error!");
         }
         finally
         {
