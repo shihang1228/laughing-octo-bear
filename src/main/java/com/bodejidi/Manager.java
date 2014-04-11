@@ -181,8 +181,12 @@ public class Manager extends HttpServlet
                 throws IOException ,ServletException ,SQLException
     {
         PrintWriter out = resp.getWriter();            
-        String firstName = req.getParameter(FORM_FIRST_NAME);
-        String lastName = req.getParameter(FORM_LAST_NAME);
+        Member member = new Member();
+        member.setFirstName(req.getParameter(FORM_FIRST_NAME));
+        member.setLastName(req.getParameter(FORM_LAST_NAME));
+        
+        String firstName = member.getFirstName();
+        String lastName = member.getLastName();
         DataBaseService ds = null;
         try
         {  
