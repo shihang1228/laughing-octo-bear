@@ -11,6 +11,14 @@
     <description>
         Welcome to jdbc
     </description>
+    
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
+    
     <servlet>
         <servlet-name>member</servlet-name>
         <servlet-class>com.bodejidi.Manager</servlet-class>
@@ -65,11 +73,6 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     
-    <jsp-config>
-        <page-property-group>
-            <url-pattern>*.jsp</url-pattern>
-        <page-encoding>UTF-8</page-encoding>
-        </page-property-group>
-    </jsp-config>
+    
     
 </web-app>
