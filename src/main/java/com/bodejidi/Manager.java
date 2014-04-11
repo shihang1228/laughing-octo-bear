@@ -202,6 +202,7 @@ public class Manager extends HttpServlet
         }*/
         forward("result" , req, resp);
     }
+    
     public Member save(Member member) throws Exception
     {
         String firstName = member.getFirstName();
@@ -218,30 +219,24 @@ public class Manager extends HttpServlet
         ds.execute(sql);
         return member;
     }
+    
     public void delete(HttpServletRequest req,HttpServletResponse resp) 
                 throws IOException ,ServletException ,SQLException         
     {
-        String firstName = req.getParameter(FORM_FIRST_NAME);
-        String lastName = req.getParameter(FORM_LAST_NAME);
-        String paraId = req.getParameter(FORM_ID);
-        PrintWriter out = resp.getWriter();
-        DataBaseService ds = null;
-        
-        try
-        {
-            ds = DataBaseService.newInstance();
-            String sql = "delete from " + SHIHANG_TABLE + " where " + SHIHANG_ID  + "=" + paraId;
-            debug("SQL: " + sql);
-            ds.execute(sql);
-            req.setAttribute("flash_massage","delete " + firstName + " " + lastName + " Success!");
-            forward("result", req,resp);
-        }
-        finally
-        {
-            ds.close();
-        }
-            
+        String paraId = req.getParameter(FORM_ID);      
+        deleteById(Long.valueOf(paraId));
+        req.setAttribute("flash_massage","delete " + paraId + " Success!");
+        forward("result", req,resp); 
     } 
+    
+    public void deleteById(Long paraId) throws SQLException
+    {
+        DataBaseService ds = DataBaseService.newInstance();
+        String sql = "delete from " + SHIHANG_TABLE + " where " + SHIHANG_ID  + "=" + paraId;
+        debug("SQL: " + sql);
+        ds.execute(sql);
+        ds.close();
+    }
     public void update(HttpServletRequest req,HttpServletResponse resp)
                  throws IOException ,ServletException ,SQLException
     {
