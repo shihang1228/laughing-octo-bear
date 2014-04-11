@@ -267,8 +267,12 @@ public class Manager extends HttpServlet
     {
         PrintWriter out = resp.getWriter();
         
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/WEB-INF/member/create.jsp");
-        dispatcher.forward(req,resp);
+        forward("create", req, resp);
 
+    }
+    public void forward(String page, HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
+    {
+        String jsp = "/WEB-INF/member/" + page + ".jsp";
+        getServletContext().getRequestDispatcher(jsp).forward(req,resp);
     }
 }
