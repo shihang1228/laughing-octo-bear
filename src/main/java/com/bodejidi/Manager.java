@@ -125,13 +125,6 @@ public class Manager extends HttpServlet
         }
     }
 
-   
-   
-    public String showLoginInfo(HttpServletRequest req)
-    {
-        return "welcome,admin!<a href=\""+req.getContextPath()+"/auth/logout\">logout</a>";
-    }
-     
     public void  save(HttpServletRequest req,HttpServletResponse resp)
                 throws IOException ,ServletException ,SQLException
     {
