@@ -123,13 +123,7 @@ public class Manager extends HttpServlet
             out.println("Error!");
         }
     }
-    /**
-     *@Deprecated
-     */
-    public Member getMemberById(String pid) throws SQLException
-    {
-        return getMemberById(Long.valueOf(pid));
-    }
+
     public Member getMemberById(Long pid) throws SQLException
     {
         Member member = new Member();
