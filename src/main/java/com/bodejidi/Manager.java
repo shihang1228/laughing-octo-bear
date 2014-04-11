@@ -14,20 +14,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
+import static com.bodejidi.Constants.FORM_FIRST_NAME; 
+import static com.bodejidi.Constants.FORM_LAST_NAME;
+import static com.bodejidi.Constants.FORM_ID;
+import static com.bodejidi.Constants.FORM_ACTION;
+import static com.bodejidi.Constants.SHIHANG_FIRST_NAME;
+import static com.bodejidi.Constants.SHIHANG_LAST_NAME;
+import static com.bodejidi.Constants.SHIHANG_ID;
+import static com.bodejidi.Constants.SHIHANG_TABLE ;
+import static com.bodejidi.Constants.SHIHANG_DATE_CREATED;
+import static com.bodejidi.Constants.SHIHANG_LAST_UPDATED;
+
 public class Manager extends HttpServlet
 {
-    static final String FORM_FIRST_NAME = Constants.FORM_FIRST_NAME; 
-    static final String FORM_LAST_NAME = Constants.FORM_LAST_NAME;
-    static final String FORM_ID = Constants.FORM_ID;
-    static final String FORM_ACTION = Constants.FORM_ACTION;
-    static final String SHIHANG_FIRST_NAME = Constants.SHIHANG_FIRST_NAME;
-    static final String SHIHANG_LAST_NAME = Constants.SHIHANG_LAST_NAME;
-    static final String SHIHANG_ID = Constants.SHIHANG_ID;
-    static final String SHIHANG_TABLE = Constants.SHIHANG_TABLE;
-    static final String SHIHANG_DATE_CREATED = Constants.SHIHANG_DATE_CREATED;
-    static final String SHIHANG_LAST_UPDATED = Constants.SHIHANG_LAST_UPDATED;
-
-    
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {                
         PrintWriter out = resp.getWriter();
