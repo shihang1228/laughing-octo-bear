@@ -80,18 +80,9 @@ public class Manager extends HttpServlet
   
         PrintWriter out = resp.getWriter();       
         try
-        {
-     
-            out.println("<html><head><title>会员管理</title></head><body>" + showLoginInfo(req) + "<h1>会员列表</h1><table border=\"2\">");
-            out.println("<tr><th>ID</th><th>Name</th></tr>");
-           
-            for(Member member: findAllMember())
-            {
-                out.println("<tr><td><a href=\"?action=show&id=" + member.getId() + "\" >"+ member.getId() 
-                          + "</a></td><td>" + member.getFirstName() + member.getLastName() 
-                          + "</td></tr>");  
-            } 
-            out.println("</table><a href=\"?action=create\">Add Member</a></body></html>");
+        {          
+            req.setAttribute("memberList",findAllMember());
+            forward("list", req, resp);
         }
         catch(SQLException ex)
         {
