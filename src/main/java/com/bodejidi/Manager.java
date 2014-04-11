@@ -90,8 +90,9 @@ public class Manager extends HttpServlet
   
         PrintWriter out = resp.getWriter();       
         try
-        {          
-            req.setAttribute("memberList",findAllMember());
+        {   
+            MemberService memberService = new MemberService();
+            req.setAttribute("memberList",memberService.findAllMember());
             forward("list", req, resp);
         }
         catch(SQLException ex)
@@ -152,33 +153,7 @@ public class Manager extends HttpServlet
         }
         return member;       
     } 
-    public List<Member> findAllMember() throws SQLException
-    {
-        List<Member> memberList = new ArrayList<Member>();
-        DataBaseService ds = null;
-        
-        try
-        {
-            ds = DataBaseService.newInstance();
-            String sql = "SELECT * FROM " + SHIHANG_TABLE;
-            debug(sql);
-            ResultSet rs = ds.executeQuery(sql);
-            while(rs.next())
-            {
-                Member member = new Member();
-                member.setId(rs.getLong(SHIHANG_ID));
-                member.setFirstName(rs.getString(SHIHANG_FIRST_NAME));
-                member.setLastName(rs.getString(SHIHANG_LAST_NAME));
-                memberList.add(member);
-                
-            }
-        }
-        finally
-        {
-            ds.close();
-        }
-        return memberList;
-    }
+   
     public String showLoginInfo(HttpServletRequest req)
     {
         return "welcome,admin!<a href=\""+req.getContextPath()+"/auth/logout\">logout</a>";
