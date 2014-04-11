@@ -241,6 +241,8 @@ public class Manager extends HttpServlet
             ds.execute(sql);
             out.println("Update " + firstName + " " + lastName + " Success!");
             out.println("<a href=\"?action=list\">Member List</a>");
+            req.setAttribute("flash_massage","Update " + firstName + " " + lastName + " Success!");
+            forward("result" , req , resp);
         }
         finally
         {
