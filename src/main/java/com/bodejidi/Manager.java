@@ -16,16 +16,16 @@ import java.util.ArrayList;
 
 public class Manager extends HttpServlet
 {
-    static final String FORM_FIRST_NAME = "first_name"; 
-    static final String FORM_LAST_NAME = "last_name";
-    static final String FORM_ID = "id";
-    static final String FORM_ACTION = "action";
-    static final String SHIHANG_FIRST_NAME = "first_name";
-    static final String SHIHANG_LAST_NAME = "last_name";
-    static final String SHIHANG_ID = "ID";
-    static final String SHIHANG_TABLE = "shihang";
-    static final String SHIHANG_DATE_CREATED = "date_created";
-    static final String SHIHANG_LAST_UPDATED = "last_updated";
+    static final String FORM_FIRST_NAME = Constants.FORM_FIRST_NAME; 
+    static final String FORM_LAST_NAME = Constants.FORM_LAST_NAME;
+    static final String FORM_ID = Constants.FORM_ID;
+    static final String FORM_ACTION = Constants.FORM_ACTION;
+    static final String SHIHANG_FIRST_NAME = Constants.SHIHANG_FIRST_NAME;
+    static final String SHIHANG_LAST_NAME = Constants.SHIHANG_LAST_NAME;
+    static final String SHIHANG_ID = Constants.SHIHANG_ID;
+    static final String SHIHANG_TABLE = Constants.SHIHANG_TABLE;
+    static final String SHIHANG_DATE_CREATED = Constants.SHIHANG_DATE_CREATED;
+    static final String SHIHANG_LAST_UPDATED = Constants.SHIHANG_LAST_UPDATED;
 
     
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
