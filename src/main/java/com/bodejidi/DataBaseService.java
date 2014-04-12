@@ -59,6 +59,12 @@ public class DataBaseService
         pIndex ++;
         return this;
     }
+    public DataBaseService setLong(Long pid) throws SQLException
+    {
+        pstmt.setLong(pIndex, pid);
+        pIndex ++;
+        return this;
+    }
     public void execute() throws SQLException
     {
         pstmt.execute();
