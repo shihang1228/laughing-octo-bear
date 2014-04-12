@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.lang.AutoCloseable;
+import java.util.Date;
 
 public class DataBaseService
 { 
@@ -26,8 +27,24 @@ public class DataBaseService
         ds.conn = ds.createConnection();
         ds.stmt = ds.conn.createStatement();
         return ds;
-
     }
+    
+    public DataBaseService prepare(String sql)
+    {
+        return this;
+    }
+    public DataBaseService setString(String para)
+    {
+        return this;
+    }
+    public DataBaseService setDate(Date param)
+    {
+        return this;
+    }
+    public void execute()
+    {
+        
+    }    
     public ResultSet executeQuery(String sql) throws SQLException
     {
         
