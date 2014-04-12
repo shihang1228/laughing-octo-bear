@@ -110,9 +110,9 @@ public class MemberService
         try
         {
             ds = DataBaseService.newInstance();
-            String sql = "delete from " + SHIHANG_TABLE + " where " + SHIHANG_ID  + "=" + paraId;
+            String sql = "delete from " + SHIHANG_TABLE + " where " + SHIHANG_ID  + "=?";
             debug("SQL: " + sql);
-            ds.execute(sql);
+            ds.execute(sql,paraId);
         }
         finally
         {
