@@ -25,12 +25,20 @@ public class DataBaseService
     {
         
     }
-    static public DataBaseService newInstance() throws SQLException
+    
+    static public DataBaseService newInstance() 
     {
         DataBaseService ds = new DataBaseService();
-        ds.conn = ds.createConnection();
-        ds.stmt = ds.conn.createStatement();
-        return ds;
+        try
+        {
+            ds.conn = ds.createConnection();
+            ds.stmt = ds.conn.createStatement();           
+        }
+        catch(SQLException e)
+        {
+        
+        }
+        return ds;   
     }
     
     public DataBaseService prepare(String sql) throws SQLException
