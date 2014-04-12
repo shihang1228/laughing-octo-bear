@@ -93,10 +93,9 @@ public class MemberService
         try
         {
             ds = DataBaseService.newInstance();
-            String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "='" 
-                        + firstName + "' , " + SHIHANG_LAST_NAME + "='" + lastName + "'where " + SHIHANG_ID + "=" + paraId;
+            String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "=? , " + SHIHANG_LAST_NAME + "=? ,where " + SHIHANG_ID + "=?";
             debug("SQL: " + sql);
-            ds.execute(sql);  
+            ds.execute("update shihang set first_name=? ,last_name=? where ID=?",firstName,lastName,paraId);  
         }
         finally
         {
