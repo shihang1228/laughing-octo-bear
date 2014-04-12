@@ -5,8 +5,10 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.lang.AutoCloseable;
 import java.util.Date;
+
 
 public class DataBaseService
 { 
@@ -16,6 +18,7 @@ public class DataBaseService
     private Connection conn = null;
     private Statement stmt = null;
     private ResultSet rs = null;
+    private PreparedStatement pstmt = null;
     
     private DataBaseService()
     {
@@ -89,6 +92,10 @@ public class DataBaseService
         
         close(conn);
         conn = null;
+        
+        close(pstmt);
+        pstmt = null;
+
     }
     
     

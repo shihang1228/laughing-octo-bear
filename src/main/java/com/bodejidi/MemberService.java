@@ -28,10 +28,8 @@ public class MemberService
             throw new Exception("Member validator error!!!");
         }
         DataBaseService ds = DataBaseService.newInstance();
-        String sql = "INSERT INTO " + SHIHANG_TABLE + " ( " + SHIHANG_FIRST_NAME + ", " + SHIHANG_LAST_NAME + " ," 
-                    + SHIHANG_DATE_CREATED + "," + SHIHANG_LAST_UPDATED + ") VALUES('"
-                    + firstName + "','" + lastName +"',now(),now())";
-        ds.execute(sql);
+        String sql = "INSERT INTO shihang (first_name, last_name ,date_created,last_updated) VALUES(?,?,?,?)";
+        ds.prepare(sql).setString(firstName).setString(lastName).setDate(new Date()).setDate(new Date()).execute();
         debug(sql);
         return member;
     }
