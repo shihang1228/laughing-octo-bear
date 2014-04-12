@@ -88,8 +88,23 @@ public class DataBaseService
         }
         return DriverManager.getConnection(jdbcUrl);
     }
-    public void execute(String sql) throws SQLException
+    public void execute(String sql, Object...params) throws SQLException
     {
+        for(Object param:params)
+        {
+            if(param instanceof String)
+            {
+                setString((String)param);
+            }
+            else if(param instanceof Long)
+            {
+                setLong((Long)param);
+            }
+            else if(param instanceof Date)
+            {
+                setDate((Date)param);
+            }
+        }
         prepare(sql);
         pstmt.execute();
     }
