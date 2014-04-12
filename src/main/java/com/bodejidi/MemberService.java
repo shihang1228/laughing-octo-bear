@@ -99,12 +99,19 @@ public class MemberService
         String firstName = member.getFirstName();
         String lastName = member.getLastName();
         Long paraId = member.getId();
-        DataBaseService ds = DataBaseService.newInstance();
-        String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "='" 
-                    + firstName + "' , " + SHIHANG_LAST_NAME + "='" + lastName + "'where " + SHIHANG_ID + "=" + paraId;
-        debug("SQL: " + sql);
-        ds.execute(sql);       
-        ds.close();
+        DataBaseService ds = null;
+        try
+        {
+            ds = DataBaseService.newInstance();
+            String sql = "update " + SHIHANG_TABLE + " set " + SHIHANG_FIRST_NAME + "='" 
+                        + firstName + "' , " + SHIHANG_LAST_NAME + "='" + lastName + "'where " + SHIHANG_ID + "=" + paraId;
+            debug("SQL: " + sql);
+            ds.execute(sql);  
+        }
+        finally
+        {
+            ds.close();
+        }
         return member;
     }
     
