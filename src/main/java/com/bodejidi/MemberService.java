@@ -110,11 +110,18 @@ public class MemberService
     
      public void deleteById(Long paraId) throws SQLException
     {
-        DataBaseService ds = DataBaseService.newInstance();
-        String sql = "delete from " + SHIHANG_TABLE + " where " + SHIHANG_ID  + "=" + paraId;
-        debug("SQL: " + sql);
-        ds.execute(sql);
-        ds.close();
+        DataBaseService ds = null;
+        try
+        {
+            ds = DataBaseService.newInstance();
+            String sql = "delete from " + SHIHANG_TABLE + " where " + SHIHANG_ID  + "=" + paraId;
+            debug("SQL: " + sql);
+            ds.execute(sql);
+        }
+        finally
+        {
+            ds.close();
+        }
     }
     
     public void debug(String str)
