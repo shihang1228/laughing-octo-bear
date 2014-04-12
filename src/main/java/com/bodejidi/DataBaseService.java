@@ -75,6 +75,10 @@ public class DataBaseService
         return stmt.executeQuery(sql);
         
     }
+    public ResultSet executeQuery() throws SQLException
+    {
+        return pstmt.executeQuery();
+    }
     protected Connection createConnection() throws SQLException
     {
         try
