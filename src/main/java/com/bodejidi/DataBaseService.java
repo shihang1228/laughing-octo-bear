@@ -90,6 +90,7 @@ public class DataBaseService
     }
     public void execute(String sql, Object...params) throws SQLException
     {
+        prepare(sql);
         for(Object param:params)
         {
             if(param instanceof String)
@@ -105,7 +106,7 @@ public class DataBaseService
                 setDate((Date)param);
             }
         }
-        prepare(sql);
+        
         pstmt.execute();
     }
     protected void close(AutoCloseable obj) 
