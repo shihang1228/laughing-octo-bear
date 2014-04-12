@@ -31,8 +31,7 @@ public class DataBaseService
         DataBaseService ds = new DataBaseService();
         try
         {
-            ds.conn = ds.createConnection();
-            ds.stmt = ds.conn.createStatement();           
+            ds.conn = ds.createConnection();    
         }
         catch(SQLException e)
         {
@@ -71,7 +70,7 @@ public class DataBaseService
     }    
     public ResultSet executeQuery(String sql) throws SQLException
     {
-        
+        stmt = conn.createStatement();
         return stmt.executeQuery(sql);
         
     }
@@ -93,6 +92,7 @@ public class DataBaseService
     }
     public void execute(String sql) throws SQLException
     {
+        stmt = conn.createStatement();
         stmt.execute(sql);
     }
     protected void close(AutoCloseable obj) 
