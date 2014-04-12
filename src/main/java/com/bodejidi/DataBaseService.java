@@ -2,7 +2,6 @@ package com.bodejidi;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
@@ -16,7 +15,6 @@ public class DataBaseService
     static final String jdbcDriver = "com.mysql.jdbc.Driver";
     
     private Connection conn = null;
-    private Statement stmt = null;
     private ResultSet rs = null;
     private PreparedStatement pstmt = null;
     private Integer pIndex = null;
@@ -70,8 +68,8 @@ public class DataBaseService
     }    
     public ResultSet executeQuery(String sql) throws SQLException
     {
-        stmt = conn.createStatement();
-        return stmt.executeQuery(sql);
+        prepare(sql);
+        return pstmt.executeQuery();
         
     }
     public ResultSet executeQuery() throws SQLException
@@ -92,8 +90,8 @@ public class DataBaseService
     }
     public void execute(String sql) throws SQLException
     {
-        stmt = conn.createStatement();
-        stmt.execute(sql);
+        prepare(sql);
+        pstmt.execute();
     }
     protected void close(AutoCloseable obj) 
     {
@@ -111,9 +109,6 @@ public class DataBaseService
     {
         close(rs);
         rs = null;
-        
-        close(stmt);
-        stmt = null;
         
         close(conn);
         conn = null;
