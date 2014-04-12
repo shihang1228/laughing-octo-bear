@@ -11,25 +11,16 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
 
 import static com.bodejidi.Constants.FORM_FIRST_NAME; 
 import static com.bodejidi.Constants.FORM_LAST_NAME;
 import static com.bodejidi.Constants.FORM_ID;
 import static com.bodejidi.Constants.FORM_ACTION;
-import static com.bodejidi.Constants.SHIHANG_FIRST_NAME;
-import static com.bodejidi.Constants.SHIHANG_LAST_NAME;
-import static com.bodejidi.Constants.SHIHANG_ID;
-import static com.bodejidi.Constants.SHIHANG_TABLE ;
-import static com.bodejidi.Constants.SHIHANG_DATE_CREATED;
-import static com.bodejidi.Constants.SHIHANG_LAST_UPDATED;
 
 public class Manager extends HttpServlet
 {
     public void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
     {                
-        PrintWriter out = resp.getWriter();
         String action = req.getParameter("action");   
 
         if(action==null || "".equals(action))
@@ -52,9 +43,8 @@ public class Manager extends HttpServlet
     
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
     {
-        
-        String paraAction = req.getParameter("action");           
         PrintWriter out = resp.getWriter();
+        String paraAction = req.getParameter("action");           
         
         try
         {
@@ -105,8 +95,7 @@ public class Manager extends HttpServlet
         
     }
     public void show(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
-    {
-       
+    {       
         PrintWriter out = resp.getWriter(); 
         try
         {
@@ -127,8 +116,7 @@ public class Manager extends HttpServlet
 
     public void  save(HttpServletRequest req,HttpServletResponse resp)
                 throws IOException ,ServletException ,SQLException
-    {
-        PrintWriter out = resp.getWriter();            
+    {       
         Member member = new Member();
         member.setFirstName(req.getParameter(FORM_FIRST_NAME));
         member.setLastName(req.getParameter(FORM_LAST_NAME));
@@ -178,11 +166,8 @@ public class Manager extends HttpServlet
    
     
     public void create(HttpServletRequest req,HttpServletResponse resp) throws IOException,ServletException
-    {
-        PrintWriter out = resp.getWriter();
-        
+    {       
         forward("create", req, resp);
-
     }
     public void forward(String page, HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException
     {
