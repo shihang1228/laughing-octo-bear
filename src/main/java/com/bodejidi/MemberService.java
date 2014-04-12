@@ -23,14 +23,22 @@ public class MemberService
     {
         String firstName = member.getFirstName();
         String lastName = member.getLastName();
+        DataBaseService ds = null;
         if(firstName == null || firstName.length() == 0 || lastName == null || lastName.length() == 0)
         {
             throw new Exception("Member validator error!!!");
         }
-        DataBaseService ds = DataBaseService.newInstance();
-        String sql = "INSERT INTO shihang (first_name, last_name ,date_created,last_updated) VALUES(?,?,?,?)";
-        ds.prepare(sql).setString(firstName).setString(lastName).setDate(new Date()).setDate(new Date()).execute();
-        debug(sql);
+        try
+        {
+            ds = DataBaseService.newInstance();
+            String sql = "INSERT INTO shihang (first_name, last_name ,date_created,last_updated) VALUES(?,?,?,?)";
+            ds.prepare(sql).setString(firstName).setString(lastName).setDate(new Date()).setDate(new Date()).execute();
+            debug(sql);
+        }
+        finally
+        {
+            ds.close();
+        }
         return member;
     }
     
