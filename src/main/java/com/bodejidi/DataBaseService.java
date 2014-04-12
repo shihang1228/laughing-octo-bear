@@ -19,6 +19,7 @@ public class DataBaseService
     private Statement stmt = null;
     private ResultSet rs = null;
     private PreparedStatement pstmt = null;
+    private Integer pIndex = null;
     
     private DataBaseService()
     {
@@ -32,21 +33,27 @@ public class DataBaseService
         return ds;
     }
     
-    public DataBaseService prepare(String sql)
+    public DataBaseService prepare(String sql) throws SQLException
     {
+        pstmt = conn.prepareStatement(sql);
+        pIndex = 1;       
         return this;
     }
-    public DataBaseService setString(String para)
+    public DataBaseService setString(String para) throws SQLException
     {
+        pstmt.setString(pIndex, para);
+        pIndex ++;
         return this;
     }
-    public DataBaseService setDate(Date param)
+    public DataBaseService setDate(Date date) throws SQLException
     {
+        pstmt.setDate(pIndex, new java.sql.Date(date.getTime()));
+        pIndex ++;
         return this;
     }
-    public void execute()
+    public void execute() throws SQLException
     {
-        
+        pstmt.execute();
     }    
     public ResultSet executeQuery(String sql) throws SQLException
     {
